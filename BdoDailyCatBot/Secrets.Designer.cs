@@ -61,7 +61,7 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на NzU5OTEzNDc1NzM2MDc2Mjk5.X3Eakw.DSvoPT2nl1WkuJhxpUD9TVRXcoY.
+        ///   Ищет локализованную строку, похожую на NzU5OTEzNDc1NzM2MDc2Mjk5.X3Eakw.vLJiNDRaj0nW3DxIEsbOdDEyzDs.
         /// </summary>
         internal static string botToken {
             get {
