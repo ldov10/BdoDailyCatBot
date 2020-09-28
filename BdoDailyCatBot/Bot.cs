@@ -18,7 +18,6 @@ namespace BdoDailyCatBot
 
             Client = new DiscordClient(config);
 
-
             await Client.ConnectAsync();
             //await Task.Delay(-1);
         }
