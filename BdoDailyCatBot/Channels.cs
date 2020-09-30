@@ -12,7 +12,7 @@ namespace BdoDailyCatBot
     {
         public static List<DiscordChannel> GetChannelsWhereCanWrite(Bot bot)
         {
-            return bot.Client.Guilds.Values.AsParallel().SelectMany(x => x.Channels.Values).ToList();
+            return bot.Client.Guilds.Values.AsParallel().SelectMany(x => x.Channels.Values).ToList(); //TODO: need some logic
         }
     }
 }

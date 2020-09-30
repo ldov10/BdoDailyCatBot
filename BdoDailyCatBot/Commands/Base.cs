@@ -14,5 +14,6 @@ namespace BdoDailyCatBot.Commands
         {
             await client.SendMessageAsync(channel, mes);
         }
+
     }
 }
