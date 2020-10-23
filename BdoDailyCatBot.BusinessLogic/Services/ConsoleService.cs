@@ -1,28 +1,42 @@
 ﻿using System;
+using BdoDailyCatBot.MainBot.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using DSharpPlus;
-using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
+using Views.Interfaces;
+using System.Linq;
 
-namespace BdoDailyCatBot.Commands
+namespace BdoDailyCatBot.BusinessLogic.Services
 {
-    public static class Console
+    public class ConsoleService
     {
-        public static Dictionary<string, Action<Bot>> ConsoleCommands = new Dictionary<string, Action<Bot>>() 
-        {
-            ["SendMessage"] = (bot) => Console.SendMessageToChannle(bot)
-        };
+        private readonly IViewConsole viewConsole;
+        private readonly IViewDiscordChannel viewDiscordChannel;
+        private readonly IBot bot;
 
-        public static async void SendMessageToChannle(Bot bot)
+        public ConsoleService(IViewConsole viewConsole, IViewDiscordChannel viewDiscordChannel, IBot bot)
+        {
+            this.viewConsole = viewConsole;
+            this.viewDiscordChannel = viewDiscordChannel;
+            this.bot = bot;
+
+            viewConsole.SendMessage += MessageSended;
+        }
+
+        private void MessageSended()
+        {
+            if (this.viewConsole.Message == "SendMessage")
+            {
+                SendMessageToChannel();
+            }
+        }
+
+        private void SendMessageToChannel()
         {
             System.Console.WriteLine("Select guild:");
 
             int i = 0;
 
-            var guilds = Guilds.GetBotGuilds(bot);
+            var guilds = bot.GetBotGuilds();
 
             foreach (var item in guilds)
             {
@@ -53,7 +67,7 @@ namespace BdoDailyCatBot.Commands
                     System.Console.WriteLine("Write message: ");
                     string message = System.Console.ReadLine();
 
-                    await Base.SendMessage(bot.Client, channels[channleInput], message);
+                    viewDiscordChannel.SendMessage(message, channels[channleInput].Id);
                 }
                 else
                 {
@@ -67,6 +81,5 @@ namespace BdoDailyCatBot.Commands
                 return;
             }
         }
-
     }
 }

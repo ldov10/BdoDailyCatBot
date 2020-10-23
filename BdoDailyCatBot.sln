@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot", "BdoDailyCatBot\BdoDailyCatBot.csproj", "{0566A564-0858-4598-8857-F74E13ED46CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdoDailyCatBot.DataAccess", "BdoDailyCatBot.DataAccess\BdoDailyCatBot.DataAccess.csproj", "{834EA0DE-6E9F-4ECC-913A-F7247891A346}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.DataAccess", "BdoDailyCatBot.DataAccess\BdoDailyCatBot.DataAccess.csproj", "{834EA0DE-6E9F-4ECC-913A-F7247891A346}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.BusinessLogic", "BdoDailyCatBot.BusinessLogic\BdoDailyCatBot.BusinessLogic.csproj", "{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdoDailyCatBot.Views", "BdoDailyCatBot.Views\BdoDailyCatBot.Views.csproj", "{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdoDailyCatBot.MainBot", "BdoDailyCatBot.MainBot\BdoDailyCatBot.MainBot.csproj", "{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{834EA0DE-6E9F-4ECC-913A-F7247891A346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{834EA0DE-6E9F-4ECC-913A-F7247891A346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{834EA0DE-6E9F-4ECC-913A-F7247891A346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

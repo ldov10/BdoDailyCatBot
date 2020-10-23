@@ -6,10 +6,14 @@ namespace BdoDailyCatBot
     {
         static void Main(string[] args)
         {
-            Bot bot = new Bot();
-            bot.Run().GetAwaiter().GetResult();
+            MainBot.Bot bot = new MainBot.Bot();
+            bot.Run(Secrets.botToken).GetAwaiter().GetResult();
 
-            Console.RunConsoleListening(bot);
+            Views.Console.ConsoleView consoleView = new Views.Console.ConsoleView();
+            Views.Discord.DiscordChannelView discordChannelView = new Views.Discord.DiscordChannelView(bot);
+            BusinessLogic.Services.ConsoleService consoleService = new BusinessLogic.Services.ConsoleService(consoleView, discordChannelView, bot);
+
+            consoleView.RunConsoleListner();
         }
     }
 }

@@ -6,7 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using System.Linq;
 
-namespace BdoDailyCatBot
+namespace BdoDailyCatBot.MainBot
 {
     public static class Guilds
     {
