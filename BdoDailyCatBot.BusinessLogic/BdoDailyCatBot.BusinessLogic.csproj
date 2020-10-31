@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BdoDailyCatBot.DataAccess\BdoDailyCatBot.DataAccess.csproj" />
     <ProjectReference Include="..\BdoDailyCatBot.MainBot\BdoDailyCatBot.MainBot.csproj" />
     <ProjectReference Include="..\BdoDailyCatBot.Views\BdoDailyCatBot.Views.csproj" />
   </ItemGroup>

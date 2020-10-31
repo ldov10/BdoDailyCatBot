@@ -61,11 +61,20 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на ([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$.
         /// </summary>
-        internal static string String1 {
+        internal static string NamePattern {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("NamePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на !.
+        /// </summary>
+        internal static string Prefix {
+            get {
+                return ResourceManager.GetString("Prefix", resourceCulture);
             }
         }
     }

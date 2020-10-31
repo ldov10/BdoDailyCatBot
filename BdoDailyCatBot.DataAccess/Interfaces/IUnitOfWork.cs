@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BdoDailyCatBot.DataAccess.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Interfaces
 {
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<Users> Users { get; }
         IRepository<Captains> Captains { get; }

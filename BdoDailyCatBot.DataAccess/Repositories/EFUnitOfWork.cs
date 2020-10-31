@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Repositories
 {
-    class EFUnitOfWork : IUnitOfWork
+    public class EFUnitOfWork : IUnitOfWork
     {
         private DbContext db;
         private UsersRepository usersRepository;
@@ -20,7 +20,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
         {
             get
             {
-                if (usersRepository != null)
+                if (usersRepository == null)
                 {
                     usersRepository = new UsersRepository(db);
                 }
@@ -33,7 +33,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
         {
             get
             {
-                if (captainsRepository != null)
+                if (captainsRepository == null)
                 {
                     captainsRepository = new CaptainsRepository(db);
                 }
