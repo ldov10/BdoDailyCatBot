@@ -46,19 +46,23 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel));
                 }
 
-                if (Regex.IsMatch(mes.Content, $"{Prefix}рег .+") && 
-                    channels.GetAll(DataAccess.Entities.FilesType.ChannelsToReg).Result.Contains(new DataAccess.Entities.Channels(e.Message.ChannelId, e.Message.Channel.Name)))
+                if (Regex.IsMatch(mes.Content, $"{Prefix}рег .+"))
                 {
+                    if (channels.GetAll(DataAccess.Entities.FilesType.ChannelsToReg).Result.Contains
+                        (new DataAccess.Entities.Channels(e.Message.ChannelId, e.Message.Channel.Name)))
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, false);
+                    }
+                    else
+                    {
+                        return;
+                    }
                     string Name = Regex.Match(mes.Content, NamePattern).Value;
 
                     var flag = AddUserToDB(new UserDTO() 
                     {IdDiscord = mes.SenderID, IsCaptain = false, LastRaidDate = null, Name = Name, RaidsVisited = 0 });
 
                     viewDiscordChannel.AddReactionToMes(e, flag);
-                }
-                else
-                {
-                    viewDiscordChannel.AddReactionToMes(e, false);
                 }
             }
         }
