@@ -15,14 +15,14 @@ namespace BdoDailyCatBot.BusinessLogic.Services
         private readonly IViewConsole viewConsole;
         private readonly IViewDiscordChannel viewDiscordChannel;
         private readonly IBot bot;
-        private readonly IChannels channels;
+        private readonly IFilesRepository files;
 
-        public ConsoleService(IViewConsole viewConsole, IViewDiscordChannel viewDiscordChannel, IBot bot, IChannels channels)
+        public ConsoleService(IViewConsole viewConsole, IViewDiscordChannel viewDiscordChannel, IBot bot, IFilesRepository filesRepository)
         {
             this.viewConsole = viewConsole;
             this.viewDiscordChannel = viewDiscordChannel;
             this.bot = bot;
-            this.channels = channels;
+            this.files = filesRepository;
 
             viewConsole.SendMessage += MessageSended;
             
@@ -129,7 +129,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                 if (Int32.TryParse(Input, out int channleInput) && (channleInput <= i && channleInput >= 0))
                 {
-                    channels.Add(new DataAccess.Entities.Channels(Channels[channleInput].Id, Channels[channleInput].Name), DataAccess.Entities.FilesType.ChannelsToReg); // TODO: Automap?
+                    files.Add<DataAccess.Entities.Channels>(new DataAccess.Entities.Channels(Channels[channleInput].Id, Channels[channleInput].Name), DataAccess.Entities.FileTypes.ChannelsToReg); // TODO: Automap?
                 }
                 else
                 {

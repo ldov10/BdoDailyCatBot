@@ -11,12 +11,12 @@ namespace BdoDailyCatBot
 
             Views.Console.ConsoleView consoleView = new Views.Console.ConsoleView();
             Views.Discord.DiscordChannelView discordChannelView = new Views.Discord.DiscordChannelView(bot, Resource.Prefix);
-            DataAccess.Repositories.ChannelsRepository channelsRepository = new DataAccess.Repositories.ChannelsRepository("Channels");
+            DataAccess.Repositories.FilesReposiroty filesReposiroty = new DataAccess.Repositories.FilesReposiroty(Resource.ResourceManager);
             DataAccess.Repositories.EFUnitOfWork dataBase = new DataAccess.Repositories.EFUnitOfWork();
             BusinessLogic.Services.ConsoleService consoleService = new BusinessLogic.Services.ConsoleService
-                (consoleView, discordChannelView, bot, channelsRepository);
+                (consoleView, discordChannelView, bot, filesReposiroty);
             BusinessLogic.Services.DiscordMessagesService discordMessagesService = new BusinessLogic.Services.DiscordMessagesService
-                (Resource.Prefix, Resource.NamePattern, discordChannelView, channelsRepository, dataBase);
+                (Resource.ResourceManager, discordChannelView, filesReposiroty, dataBase);
 
             consoleView.RunConsoleListner();
         }

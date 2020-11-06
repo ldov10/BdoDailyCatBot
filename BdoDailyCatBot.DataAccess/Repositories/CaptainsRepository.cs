@@ -15,12 +15,12 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
-        public IEnumerable<Captains> GetAll()
+        public async Task<IEnumerable<Captains>> GetAll()
         {
             return new List<Captains>();
         }
 
-        public bool Add(Captains captain)
+        public async Task<bool> Add(Captains captain)
         {
             return false;
         }

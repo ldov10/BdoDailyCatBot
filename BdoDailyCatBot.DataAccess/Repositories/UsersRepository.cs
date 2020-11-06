@@ -17,21 +17,21 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
-        public IEnumerable<Users> GetAll()
+        public async Task<IEnumerable<Users>> GetAll()
         {
             return new List<Users>();
         }
 
-        public bool Add(Users user)
+        public async Task<bool> Add(Users user)
         {
-            if (db.Users.Where(p => p.IdDiscord == user.IdDiscord).Count() > 0)
+            if ((await db.Users.Where(p => p.IdDiscord == user.IdDiscord).ToListAsync()).Count > 0)
             {
                 return false;
             }
 
             try
             {
-                db.Users.Add(user);
+                await db.Users.AddAsync(user);
                 return true;
             }
             catch (Exception ex)

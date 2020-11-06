@@ -4,8 +4,9 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    public enum FilesType
+    public enum FileTypes
     {
-        ChannelsToReg
+        ChannelsToReg,
+        CurrentRaids
     }
 }

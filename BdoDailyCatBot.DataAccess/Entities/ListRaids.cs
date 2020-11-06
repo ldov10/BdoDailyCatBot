@@ -4,13 +4,13 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    class ListChannels
+    class ListRaids
     {
-        public List<Channels> channels { get; set; }
+        public List<Raids> raids { get; set; }
 
-        public ListChannels()
+        public ListRaids()
         {
-            channels = new List<Channels>();
+            raids = new List<Raids>();
         }
     }
 }

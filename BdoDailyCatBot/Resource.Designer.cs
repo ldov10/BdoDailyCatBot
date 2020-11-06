@@ -61,6 +61,33 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Channels.
+        /// </summary>
+        internal static string ChannelsDirectoryPath {
+            get {
+                return ResourceManager.GetString("ChannelsDirectoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на /ChannelsToReg.json.
+        /// </summary>
+        internal static string ChannelsToReg {
+            get {
+                return ResourceManager.GetString("ChannelsToReg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на /CurrentRaids.json.
+        /// </summary>
+        internal static string CurrentRaids {
+            get {
+                return ResourceManager.GetString("CurrentRaids", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$.
         /// </summary>
         internal static string NamePattern {
@@ -75,6 +102,74 @@ namespace BdoDailyCatBot {
         internal static string Prefix {
             get {
                 return ResourceManager.GetString("Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Новый рейд создан!
+        ///Бронирование мест участниками начнется в .
+        /// </summary>
+        internal static string RaidAdded1 {
+            get {
+                return ResourceManager.GetString("RaidAdded1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 
+        ///Капитан .
+        /// </summary>
+        internal static string RaidAdded2 {
+            get {
+                return ResourceManager.GetString("RaidAdded2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 
+        ///Отплытие в .
+        /// </summary>
+        internal static string RaidAdded3 {
+            get {
+                return ResourceManager.GetString("RaidAdded3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 
+        ///Канал .
+        /// </summary>
+        internal static string RaidAdded4 {
+            get {
+                return ResourceManager.GetString("RaidAdded4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 
+        ///Мест осталось .
+        /// </summary>
+        internal static string RaidAdded5 {
+            get {
+                return ResourceManager.GetString("RaidAdded5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Желающие присоединиться к рейду нажмите на .
+        /// </summary>
+        internal static string RaidAdded6 {
+            get {
+                return ResourceManager.GetString("RaidAdded6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Raids.
+        /// </summary>
+        internal static string RaidsDirectoryPath {
+            get {
+                return ResourceManager.GetString("RaidsDirectoryPath", resourceCulture);
             }
         }
     }
