@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CaptainRoleName" xml:space="preserve">
+    <value>Капитан</value>
+  </data>
   <data name="ChannelsDirectoryPath" xml:space="preserve">
     <value>Channels</value>
   </data>
@@ -132,28 +135,29 @@
   <data name="Prefix" xml:space="preserve">
     <value>!</value>
   </data>
-  <data name="RaidAdded1" xml:space="preserve">
-    <value>Новый рейд создан!
-Бронирование мест участниками начнется в </value>
-  </data>
-  <data name="RaidAdded2" xml:space="preserve">
+  <data name="RaidAddedCaptainName" xml:space="preserve">
     <value>
 Капитан </value>
   </data>
-  <data name="RaidAdded3" xml:space="preserve">
-    <value>
-Отплытие в </value>
-  </data>
-  <data name="RaidAdded4" xml:space="preserve">
+  <data name="RaidAddedChannel" xml:space="preserve">
     <value>
 Канал </value>
   </data>
-  <data name="RaidAdded5" xml:space="preserve">
+  <data name="RaidAddedReactionToAdd" xml:space="preserve">
+    <value>
+Желающие присоединиться к рейду нажмите на </value>
+  </data>
+  <data name="RaidAddedTimeStart" xml:space="preserve">
+    <value>
+Отплытие в </value>
+  </data>
+  <data name="RaidAddedTimeStartAssembly" xml:space="preserve">
+    <value>Новый рейд создан!
+Бронирование мест участниками начнется в </value>
+  </data>
+  <data name="RaidAddedUsersLeft" xml:space="preserve">
     <value>
 Мест осталось </value>
-  </data>
-  <data name="RaidAdded6" xml:space="preserve">
-    <value>Желающие присоединиться к рейду нажмите на </value>
   </data>
   <data name="RaidsDirectoryPath" xml:space="preserve">
     <value>Raids</value>

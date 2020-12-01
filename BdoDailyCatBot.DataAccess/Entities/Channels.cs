@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    public class Channels
+    public class Channels : ToFile
     {
         public Channels(ulong id, string name)
         {

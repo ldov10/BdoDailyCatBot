@@ -38,12 +38,14 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             }
         }
 
-        public async Task<List<T>> GetAll<T>(FileTypes FileTypes)
+        public async Task<List<T>> GetAll<T>(FileTypes FileTypes) where T: ToFile
         {
             if (!filePath.ContainsKey(FileTypes))
             {
                 return (new List<T>());
             }
+
+            using (FileStream fs = new FileStream(filePath[FileTypes], FileMode.OpenOrCreate)) ;
 
             ListItems<T> listItems = new ListItems<T>();
 
@@ -61,12 +63,14 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             return listItems.listItems;
         }
 
-        public async Task<bool> Add<T>(T item, FileTypes FileTypes)
+        public async Task<bool> Add<T>(T item, FileTypes FileTypes) where T: ToFile
         {
             if (!filePath.ContainsKey(FileTypes))
             {
                 return false;
             }
+
+            using (FileStream fs = new FileStream(filePath[FileTypes], FileMode.OpenOrCreate));
 
             ListItems<T> listItems = new ListItems<T>();
 
@@ -76,8 +80,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
 
                 if (json != "")
                 {
-                    var temp = JsonConvert.DeserializeObject<ListItems<T>>(json);
-                    listItems = temp;
+                    listItems = JsonConvert.DeserializeObject<ListItems<T>>(json);
                 }
 
             }

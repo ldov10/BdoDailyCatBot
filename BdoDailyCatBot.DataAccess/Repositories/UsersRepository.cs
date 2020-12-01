@@ -17,9 +17,14 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
-        public async Task<IEnumerable<Users>> GetAll()
+        public IEnumerable<Users> GetAll()
         {
-            return new List<Users>();
+            return db.Users;
+        }
+
+        public void Update(Users user)
+        {
+            db.Entry(user).State = EntityState.Modified;
         }
 
         public async Task<bool> Add(Users user)

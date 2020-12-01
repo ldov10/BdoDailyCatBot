@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BdoDailyCatBot.BusinessLogic.DTO
+namespace BdoDailyCatBot.BusinessLogic.BusinessModels
 {
-    class UserDTO
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }

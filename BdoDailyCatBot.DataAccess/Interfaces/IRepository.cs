@@ -7,7 +7,8 @@ namespace BdoDailyCatBot.DataAccess.Interfaces
 {
     public interface IRepository<T> where T : class 
     {
-        Task<IEnumerable<T>> GetAll();
+        IEnumerable<T> GetAll();
+        void Update(T item);
         Task<bool> Add(T item);
     }
 }

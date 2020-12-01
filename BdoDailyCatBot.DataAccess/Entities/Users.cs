@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BdoDailyCatBot
 {
@@ -10,8 +12,9 @@ namespace BdoDailyCatBot
         public int RaidsVisited { get; set; }
         public DateTime? LastRaidDate { get; set; }
         public bool IsCaptain { get; set; }
-        public decimal IdDiscord { get; set; }
+        public ulong IdDiscord { get; set; }
 
+        [JsonIgnore][NotMapped]
         public virtual Captains Captains { get; set; }
     }
 }

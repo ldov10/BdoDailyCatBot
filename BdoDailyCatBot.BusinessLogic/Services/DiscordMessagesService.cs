@@ -1,13 +1,11 @@
 ﻿using BdoDailyCatBot.BusinessLogic.BusinessModels;
 using BdoDailyCatBot.DataAccess.Interfaces;
-using BdoDailyCatBot.MainBot.EventsArgs;
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Views.Interfaces;
-using BdoDailyCatBot.BusinessLogic.DTO;
+using BdoDailyCatBot.Views.Interfaces;
 using AutoMapper;
 using System.Linq;
 using BdoDailyCatBot.MainBot;
@@ -21,53 +19,57 @@ namespace BdoDailyCatBot.BusinessLogic.Services
         private readonly IViewDiscordChannel viewDiscordChannel;
         private readonly IFilesRepository files;
         private readonly IUnitOfWork dataBase;
+        private readonly RaidsService raidsService; // TODO: It's not good
 
         public string Prefix { get; private set; }
         public string NamePattern { get; private set; }
 
-        public DiscordMessagesService(ResourceManager resourceManager, IViewDiscordChannel viewDiscordChannel, IFilesRepository filesRepository, IUnitOfWork dataBase)
+        public DiscordMessagesService(ResourceManager resourceManager, IViewDiscordChannel viewDiscordChannel, IFilesRepository filesRepository,
+            IUnitOfWork dataBase, RaidsService raidsService)
         {
             this.viewDiscordChannel = viewDiscordChannel;
             this.files = filesRepository;
             this.Prefix = resourceManager.GetString("Prefix");
             this.NamePattern = resourceManager.GetString("NamePattern");
             this.dataBase = dataBase;
+            this.raidsService = raidsService;
 
             viewDiscordChannel.MessageSended += MessageSended;
+            viewDiscordChannel.MessageReactionAdded += ReactionAdded;
         }
 
-        private void MessageSended(MessageSendedEventArgs e)
+        private void MessageSended(Views.Entites.Message e)
         {
             Message mes = new Message() 
-            { Content = e.Message.Content, Channel = new Channel() { Id = e.Message.ChannelId, Name = e.Message.Channel.Name }, SenderID = e.Message.Author.Id }; // TODO: Automap?
+            { Content = e.Content, Channel = new Channel() { Id = e.ChannelId, Name = e.ChannelName }, SenderID = e.SenderID }; // TODO: Automap?
 
             if (mes.Content.StartsWith(Prefix))
             {
                 if (mes.Content == (Prefix + "рег_тут")) // TODO: change select
                 {
-                    viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel));
+                    viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel) ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
                 if (Regex.IsMatch(mes.Content, $"^{Prefix}рег .+"))
                 {
                     if (!Regex.IsMatch(mes.Content, $@"^{Prefix}рег \w+$"))
                     {
-                        viewDiscordChannel.AddReactionToMes(e, false);
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                         return;
                     }
 
                     if (!files.GetAll<DataAccess.Entities.Channels>(FileTypes.ChannelsToReg).Result.Contains
-                        (new DataAccess.Entities.Channels(e.Message.ChannelId, e.Message.Channel.Name)))
+                        (new DataAccess.Entities.Channels(e.ChannelId, e.ChannelName)))
                     {
-                        viewDiscordChannel.AddReactionToMes(e, false);
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                         return;
                     }
                     string Name = Regex.Match(mes.Content, NamePattern).Value;
 
-                    var flag = AddUserToDB(new UserDTO() 
+                    var flag = AddUserToDB(new User() 
                     {IdDiscord = mes.SenderID, IsCaptain = false, LastRaidDate = null, Name = Name, RaidsVisited = 0 });
 
-                    viewDiscordChannel.AddReactionToMes(e, flag);
+                    viewDiscordChannel.AddReactionToMes(e, flag ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
                 if (Regex.IsMatch(mes.Content, $"^{Prefix}к .+")) // TODO: change "к"
@@ -171,7 +173,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                                 }
                                 else
                                 {
-                                    viewDiscordChannel.AddReactionToMes(e, false);
+                                    viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                                     return;
                                 }
                             }
@@ -180,20 +182,42 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                     if (TimeStart <= TimeStartAssembly)
                     {
-                        viewDiscordChannel.AddReactionToMes(e, false);
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                         return;
                     }
 
-                    viewDiscordChannel.AddReactionToMes(e, true);
+                    bool IsRaidAdded = raidsService.AddRaid(
+                        new Raid() { TimeStart = TimeStart, TimeStartAssembly = TimeStartAssembly, Channel = Channel, ChannelAssemblyId = mes.Channel.Id }, mes.SenderID, mes.Channel.Id); // TODO: del channel
+
+                    viewDiscordChannel.AddReactionToMes(e, IsRaidAdded ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
             }
         }
 
-        private bool AddUserToDB(UserDTO user)
+        private void ReactionAdded(Views.EventsArgs.MessageReactionAddedEventArgs e)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, Users>());
+            if (e.Reaction == MainBot.Models.Reactions.HEART)
+            {
+                var mes = new Message()
+                {
+                    Channel = new Channel()
+                    {
+                        Id = e.Message.ChannelId,
+                        Name = e.Message.ChannelName
+                    },
+                    Content = e.Message.Content,
+                    SenderID = e.Message.SenderID
+                };
+
+                raidsService.ReactionHeartAdded(mes);
+            }
+        }
+
+        private bool AddUserToDB(User user)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, Users>());
             var mapper = new Mapper(config);
-            Users users = mapper.Map<UserDTO, Users>(user);
+            Users users = mapper.Map<User, Users>(user);
             var flag = dataBase.Users.Add(users).Result;
             dataBase.Save();
             return flag;

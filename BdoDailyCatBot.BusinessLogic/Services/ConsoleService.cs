@@ -3,7 +3,7 @@ using BdoDailyCatBot.MainBot.Interfaces;
 using BdoDailyCatBot.DataAccess.Interfaces;
 using System.Collections.Generic;
 using System.Text;
-using Views.Interfaces;
+using BdoDailyCatBot.Views.Interfaces;
 using System.Linq;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

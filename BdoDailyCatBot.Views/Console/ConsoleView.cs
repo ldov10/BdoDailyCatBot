@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Views.Interfaces;
+using BdoDailyCatBot.Views.Interfaces;
 
-namespace Views.Console
+namespace BdoDailyCatBot.Views.Console
 {
     public class ConsoleView : IViewConsole
     {

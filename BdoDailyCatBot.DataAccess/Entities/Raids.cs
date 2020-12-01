@@ -4,14 +4,18 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    public class Raids
+    public class Raids : ToFile
     {
-        public string CaptainName { get; private set; } = "";
-        public string Channel { get; private set; } = "";
-        public DateTime TimeStart { get; private set; } = new DateTime();
-        public DateTime TimeStartAssembly { get; private set; } = new DateTime();
-        public int ReservedUsers { get; private set; } = 1;
-        public int UsersInRaid { get; private set; } = 0;
+        public int Id { get; set; } = 0;
+        public string CaptainName { get; set; } = "";
+        public string Channel { get; set; } = "";
+        public ulong ChannelAssemblyId { get; set; } = 0; 
+        public DateTime TimeStart { get; set; } = new DateTime();
+        public DateTime TimeStartAssembly { get; set; } = new DateTime();
+        public int ReservedUsers { get; set; } = 1;
+        public int UsersInRaid { get; set; } = 0;
+        public ulong MessageId { get; set; } = 0;
+        public List<Users> Users { get; set; } = new List<Users>();
 
         public override bool Equals(object obj)
         {

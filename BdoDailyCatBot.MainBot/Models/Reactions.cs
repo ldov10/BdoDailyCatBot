@@ -7,6 +7,8 @@ namespace BdoDailyCatBot.MainBot.Models
     public enum Reactions
     {
         OK,
-        NO
+        NO,
+        HEART,
+        INVALID
     }
 }

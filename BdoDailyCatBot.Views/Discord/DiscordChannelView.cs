@@ -1,45 +1,98 @@
-﻿using BdoDailyCatBot.MainBot.EventsArgs;
-using BdoDailyCatBot.MainBot.Interfaces;
+﻿using BdoDailyCatBot.MainBot.Interfaces;
+using BdoDailyCatBot.MainBot.Models;
+using BdoDailyCatBot.Views.Entites;
 using DSharpPlus.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Views.Interfaces;
+using BdoDailyCatBot.Views.Interfaces;
+using System.Linq;
+using Microsoft.VisualBasic;
+using DSharpPlus.EventArgs;
+using BdoDailyCatBot.Views.EventsArgs;
 
-namespace Views.Discord
+namespace BdoDailyCatBot.Views.Discord
 {
     public class DiscordChannelView : IViewDiscordChannel
     {
         private readonly IBot Bot;
-        public event Action<MessageSendedEventArgs> MessageSended;
+        public event Action<Message> MessageSended;
+        public event Action<MessageReactionAddedEventArgs> MessageReactionAdded;
 
         public DiscordChannelView(IBot bot, string Prefix)
         {
             this.Bot = bot;
 
             Bot.MessageSended += MessageCreated;
+            bot.MessageReactionAdded += ReactionAdded;
         }
-        public void SendMessage(string mes, ulong channelId)
+        public ulong SendMessage(string mes, ulong channelId)
         {
-            Bot.SendMessage(Bot.GetChannelById(channelId), mes);
+            return Bot.SendMessageAsync(Bot.GetChannelById(channelId), mes).Result;
         }
 
-        public void AddReactionToMes(MessageSendedEventArgs args, bool flag)
+        public void AddReactionToMes(Message mes, Reactions reaction)
         {
-            if (flag)
-            {
-                Bot.AddReactionToMesAsync(args.Message, BdoDailyCatBot.MainBot.Models.Reactions.OK);
-            }
-            else
-            {
-                Bot.AddReactionToMesAsync(args.Message, BdoDailyCatBot.MainBot.Models.Reactions.NO);
-            }
+            Bot.AddReactionToMesAsync(Bot.GetMessageById(mes.ChannelId, mes.ID), reaction);
         }
 
-        public void MessageCreated(MessageSendedEventArgs e)
+        public void AddReactionToMes(ulong messageId, ulong channelId, Reactions reaction)
         {
-            MessageSended?.Invoke(e);
+            Bot.AddReactionToMesAsync(Bot.GetMessageById(channelId, messageId), reaction);
         }
+
+        public string GetEmoji(Reactions reaction)
+        {
+            return Bot.GetEmoji(reaction);
+        }
+
+        public List<string> GetUserRoles(ulong userId, ulong guildId)
+        {
+            var member = Bot.GetMemberByIdAsync(userId, guildId).Result;
+
+            return member.Roles.Select(x => x.Name).ToList();
+        }
+
+        public ulong GetGuildIdByChannel(ulong channelId)
+        {
+            return Bot.GetChannelById(channelId).GuildId;
+        }
+
+        public ulong CreateChannel(ulong channelNeighborId, string name)
+        {
+            var channel = Bot.GetChannelById(channelNeighborId);
+            return Bot.CreateTextChannelAsync(channel.GuildId, name, channel).Result.Id;
+        }
+
+        private void MessageCreated(MessageCreateEventArgs e)
+        {
+            MessageSended?.Invoke(new Message() {ChannelId = e.Message.ChannelId, ChannelName = e.Message.Channel.Name, 
+               Content = e.Message.Content, ID = e.Message.Id, SenderID = e.Message.Author.Id });
+        }
+
+        private void ReactionAdded(MessageReactionAddEventArgs e)
+        {
+            var mes = Bot.GetMessageById(e.Channel.Id, e.Message.Id);
+
+            var message = new Message()
+            {
+                ChannelId = mes.ChannelId,
+                ChannelName = mes.Channel.Name,
+                Content = mes.Content,
+                ID = mes.Id,
+                SenderID = mes.Id
+            };
+
+            Reactions reaction = Bot.GetEmojiDictionary().FirstOrDefault(x => x.Value.Name == e.Emoji.Name).Key;
+
+            if (reaction == default)
+            {
+                reaction = Reactions.INVALID;
+            }
+
+            MessageReactionAdded?.Invoke(new MessageReactionAddedEventArgs() {Message = message, Reaction = reaction, ReactionSenderId = e.User.Id });
+        }
+
     }
 }

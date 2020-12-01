@@ -1,4 +1,6 @@
 ﻿using BdoDailyCatBot.DataAccess.Interfaces;
+using Microsoft.EntityFrameworkCore.Update.Internal;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +17,12 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
-        public async Task<IEnumerable<Captains>> GetAll()
+        public void Update(Captains captain)
+        {
+            db.Entry(captain).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Captains> GetAll()
         {
             return new List<Captains>();
         }
