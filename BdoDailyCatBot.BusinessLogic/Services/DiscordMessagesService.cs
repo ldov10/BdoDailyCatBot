@@ -67,8 +67,6 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     }
                     string Name = Regex.Match(mes.Content, NamePattern).Value;
 
-                    Console.WriteLine(Name + "\n");
-
                     if (Name == "") 
                     {
                         viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
