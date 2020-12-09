@@ -36,6 +36,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             viewDiscordChannel.MessageSended += MessageSended;
             viewDiscordChannel.MessageReactionAdded += ReactionAdded;
+            viewDiscordChannel.MessageReactionRemoved += ReactionRemoved;
         }
 
         private void MessageSended(Views.Entites.Message e)
@@ -65,6 +66,14 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                         return;
                     }
                     string Name = Regex.Match(mes.Content, NamePattern).Value;
+
+                    Console.WriteLine(Name + "\n");
+
+                    if (Name == "") 
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
 
                     var flag = AddUserToDB(new User() 
                     {IdDiscord = mes.SenderID, IsCaptain = false, LastRaidDate = null, Name = Name, RaidsVisited = 0 });
@@ -209,7 +218,26 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     SenderID = e.Message.SenderID
                 };
 
-                raidsService.ReactionHeartAdded(mes);
+                raidsService.ReactionHeartChanged(mes, e.ReactionSenderId, true);
+            }
+        }
+
+        private void ReactionRemoved(Views.EventsArgs.MessageReactionRemovedEventArgs e)
+        {
+            if (e.Reaction == MainBot.Models.Reactions.HEART)
+            {
+                var mes = new Message()
+                {
+                    Channel = new Channel()
+                    {
+                        Id = e.Message.ChannelId,
+                        Name = e.Message.ChannelName
+                    },
+                    Content = e.Message.Content,
+                    SenderID = e.Message.SenderID
+                };
+
+                raidsService.ReactionHeartChanged(mes, e.ReactionSenderId, false);
             }
         }
 

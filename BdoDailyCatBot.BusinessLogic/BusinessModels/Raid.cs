@@ -9,7 +9,7 @@ namespace BdoDailyCatBot.BusinessLogic.BusinessModels
     {
         public static int Count { get; set; } = 0;
 
-        public int Id { get; set; } = 0;
+        public ulong Id { get; set; } = 0;
         public string CaptainName { get; set; } = "";
         public string Channel { get; set; } = "";
         public ulong ChannelAssemblyId { get; set; } = 0;

@@ -9,7 +9,6 @@ namespace BdoDailyCatBot
             MainBot.Bot bot = new MainBot.Bot();
             bot.Run(Secrets.botToken).GetAwaiter().GetResult();
             
-            
             Views.Console.ConsoleView consoleView = new Views.Console.ConsoleView();
             Views.Discord.DiscordChannelView discordChannelView = new Views.Discord.DiscordChannelView(bot, Resource.Prefix);
             DataAccess.Repositories.FilesReposiroty filesReposiroty = new DataAccess.Repositories.FilesReposiroty(Resource.ResourceManager);

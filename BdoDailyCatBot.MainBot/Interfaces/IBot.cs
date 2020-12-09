@@ -14,7 +14,9 @@ namespace BdoDailyCatBot.MainBot.Interfaces
         Dictionary<Reactions, DiscordEmoji> GetEmojiDictionary();
 
         public Task<ulong> SendMessageAsync(DiscordChannel discordChannel, string mes);
+        public Task<ulong> SendMessageAsync(DiscordChannel discordChannel, DiscordEmbed embed);
         DiscordChannel GetChannelById(ulong id);
+        DiscordEmbed BuildEmbed(string title, string fieldName, string fieldValue);
         List<DiscordGuild> GetBotGuilds();
         string GetEmoji(Reactions reaction);
         public Task<DiscordMember> GetMemberByIdAsync(ulong userId, ulong guildId);
@@ -24,5 +26,6 @@ namespace BdoDailyCatBot.MainBot.Interfaces
 
         public event Action<MessageCreateEventArgs> MessageSended;
         public event Action<MessageReactionAddEventArgs> MessageReactionAdded;
+        public event Action<MessageReactionRemoveEventArgs> MessageReactionRemoved;
     }
 }

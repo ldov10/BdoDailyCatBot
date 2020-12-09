@@ -1,6 +1,7 @@
 ﻿using System;
 using BdoDailyCatBot.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using BdoDailyCatBot.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BdoDailyCatBot

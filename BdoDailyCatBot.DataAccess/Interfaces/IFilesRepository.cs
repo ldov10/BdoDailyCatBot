@@ -10,6 +10,6 @@ namespace BdoDailyCatBot.DataAccess.Interfaces
     {
         Task<bool> Add<T>(T item, Entities.FileTypes FileTypes) where T: ToFile;
         Task<List<T>> GetAll<T>(Entities.FileTypes FileTypes) where T: ToFile;
-        //Task Update<T>(T item) where T : ToFile;
+        Task<bool> Update<T>(T item, FileTypes fileTypes) where T : ToFile;
     }
 }

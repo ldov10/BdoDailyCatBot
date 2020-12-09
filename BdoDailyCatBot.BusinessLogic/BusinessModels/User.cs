@@ -12,5 +12,32 @@ namespace BdoDailyCatBot.BusinessLogic.BusinessModels
         public DateTime? LastRaidDate { get; set; }
         public bool IsCaptain { get; set; }
         public ulong IdDiscord { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            User objAsUser = obj as User;
+
+            if (objAsUser == null)
+            {
+                return false;
+            }
+
+            if (objAsUser.IdDiscord == this.IdDiscord)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.IdDiscord.GetHashCode();
+        }
     }
 }

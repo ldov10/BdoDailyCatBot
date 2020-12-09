@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BdoDailyCatBot
+namespace BdoDailyCatBot.DataAccess.Entities
 {
     public partial class Captains
     {

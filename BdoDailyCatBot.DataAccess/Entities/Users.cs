@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BdoDailyCatBot
+namespace BdoDailyCatBot.DataAccess.Entities
 {
     public partial class Users
     {

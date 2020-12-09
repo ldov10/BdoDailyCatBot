@@ -1,5 +1,6 @@
 ﻿using BdoDailyCatBot.DataAccess.Interfaces;
 using System;
+using BdoDailyCatBot.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Text;
 

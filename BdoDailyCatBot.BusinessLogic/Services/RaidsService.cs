@@ -73,7 +73,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                 database.Users.Update(user);
             }
 
-            raid.Id = ++Raid.Count;
+            raid.Id = (ulong)++Raid.Count;
             
             string mes = BuildString(raid);
 
@@ -101,7 +101,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                 $"{resourceManager.GetString("RaidAddedReactionToAdd")}{viewDiscordChannel.GetEmoji(Reactions.HEART)}";
         }
 
-        public void ReactionHeartAdded(Message mes)
+        public void ReactionHeartChanged(Message mes, ulong ReactionSenderId, bool heartAdded)
         {
             var raidFromFile = files.GetAll<Raids>(FileTypes.CurrentRaids).Result.FirstOrDefault(x => x.ChannelAssemblyId == mes.Channel.Id);
 
@@ -112,25 +112,79 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             var raid = currentRaids.FirstOrDefault(x => x.Id == raidFromFile.Id);
 
-            if (raid == default || (raid.UsersInRaid + raid.ReservedUsers) >= 20)
+            if (raid == default)
             {
                 return;
             }
 
-            var userFromFile = database.Users.GetAll().FirstOrDefault(x => x.IdDiscord == mes.SenderID);
-
-            if (userFromFile == default)
+            if (raid.UsersInRaid + raid.ReservedUsers >= 20)
             {
                 return;
             }
 
-            raid.UsersInRaid++;
-            raid.Users.Add(mapperUsersToUser.Map<Users, User>(userFromFile));
+            var userFromDB = database.Users.GetAll().FirstOrDefault(x => x.IdDiscord == ReactionSenderId);
 
+            if (userFromDB == default)
+            {
+                return;
+            }
+
+            userFromDB.Name = userFromDB.Name.Trim();
+
+            if (heartAdded)
+            {
+                if (raid.Users.Contains(new User() { IdDiscord = ReactionSenderId }))
+                {
+                    return;
+                }
+
+                raid.UsersInRaid++;
+                raid.Users.Add(mapperUsersToUser.Map<Users, User>(userFromDB));
+                files.Update(mapperRaidToRaids.Map<Raid, Raids>(raid), FileTypes.CurrentRaids);
+            }
+            else
+            {
+                if (!raid.Users.Contains(new User() { IdDiscord = ReactionSenderId }))
+                {
+                    return;
+                }
+
+                raid.UsersInRaid--;
+                raid.Users.Remove(mapperUsersToUser.Map<Users, User>(userFromDB));
+                files.Update(mapperRaidToRaids.Map<Raid, Raids>(raid), FileTypes.CurrentRaids);
+            }
+
+            SendRaidTable(raid);
+        }
+
+        private void SendRaidTable(Raid raid)
+        {
+            string title = raid.CaptainName + " " + raid.TimeStart.ToShortTimeString() + " " + raid.Channel;  
+            viewDiscordChannel.SendEmbedMessage(title, "\u200B", BuildStringTable(raid), raid.ChannelAssemblyId);
+        }
+
+        private string BuildStringTable(Raid raid)
+        {
+            StringBuilder result = new StringBuilder();
+
+            int count = 1;
             foreach (var item in raid.Users)
             {
-                Console.WriteLine(item.Name);
+                result.Append(count);
+                result.Append(". ");
+                result.Append(item.Name);
+                result.Append("\n");
+
+                count++;
             }
+
+            if (result.ToString() == "")
+            {
+                result.Clear();
+                result.Append("\u200B");
+            }
+
+            return result.ToString();
         }
     }
 }

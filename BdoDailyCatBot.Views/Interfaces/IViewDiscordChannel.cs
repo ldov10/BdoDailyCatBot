@@ -12,6 +12,7 @@ namespace BdoDailyCatBot.Views.Interfaces
     public interface IViewDiscordChannel
     {
         ulong SendMessage(string mes, ulong channelId);
+        ulong SendEmbedMessage(string title, string fieldName, string fieldValue, ulong channelId);
         void AddReactionToMes(Message mes, Reactions reaction);
         void AddReactionToMes(ulong messageId, ulong channelId, Reactions reaction);
         ulong CreateChannel(ulong channelNeighborId, string channelName);
@@ -19,7 +20,9 @@ namespace BdoDailyCatBot.Views.Interfaces
         ulong GetGuildIdByChannel(ulong channelId);
         string GetEmoji(Reactions reaction);
 
+
         event Action<Message> MessageSended;
         event Action<MessageReactionAddedEventArgs> MessageReactionAdded;
+        event Action<MessageReactionRemovedEventArgs> MessageReactionRemoved;
     }
 }

@@ -19,6 +19,7 @@ namespace BdoDailyCatBot.Views.Discord
         private readonly IBot Bot;
         public event Action<Message> MessageSended;
         public event Action<MessageReactionAddedEventArgs> MessageReactionAdded;
+        public event Action<MessageReactionRemovedEventArgs> MessageReactionRemoved;
 
         public DiscordChannelView(IBot bot, string Prefix)
         {
@@ -26,10 +27,16 @@ namespace BdoDailyCatBot.Views.Discord
 
             Bot.MessageSended += MessageCreated;
             bot.MessageReactionAdded += ReactionAdded;
+            bot.MessageReactionRemoved += ReactionRemoved;
         }
         public ulong SendMessage(string mes, ulong channelId)
         {
             return Bot.SendMessageAsync(Bot.GetChannelById(channelId), mes).Result;
+        }
+
+        public ulong SendEmbedMessage(string title, string fieldName, string fieldValue, ulong channelId)
+        {
+            return Bot.SendMessageAsync(Bot.GetChannelById(channelId), Bot.BuildEmbed(title, fieldName, fieldValue)).Result;
         }
 
         public void AddReactionToMes(Message mes, Reactions reaction)
@@ -81,7 +88,7 @@ namespace BdoDailyCatBot.Views.Discord
                 ChannelName = mes.Channel.Name,
                 Content = mes.Content,
                 ID = mes.Id,
-                SenderID = mes.Id
+                SenderID = mes.Author.Id
             };
 
             Reactions reaction = Bot.GetEmojiDictionary().FirstOrDefault(x => x.Value.Name == e.Emoji.Name).Key;
@@ -92,6 +99,29 @@ namespace BdoDailyCatBot.Views.Discord
             }
 
             MessageReactionAdded?.Invoke(new MessageReactionAddedEventArgs() {Message = message, Reaction = reaction, ReactionSenderId = e.User.Id });
+        }
+
+        private void ReactionRemoved(MessageReactionRemoveEventArgs e)
+        {
+            var mes = Bot.GetMessageById(e.Channel.Id, e.Message.Id);
+
+            var message = new Message()
+            {
+                ChannelId = mes.ChannelId,
+                ChannelName = mes.Channel.Name,
+                Content = mes.Content,
+                ID = mes.Id,
+                SenderID = mes.Author.Id
+            };
+
+            Reactions reaction = Bot.GetEmojiDictionary().FirstOrDefault(x => x.Value.Name == e.Emoji.Name).Key;
+
+            if (reaction == default)
+            {
+                reaction = Reactions.INVALID;
+            }
+
+            MessageReactionRemoved?.Invoke(new MessageReactionRemovedEventArgs() { Message = message, Reaction = reaction, ReactionSenderId = e.User.Id });
         }
 
     }

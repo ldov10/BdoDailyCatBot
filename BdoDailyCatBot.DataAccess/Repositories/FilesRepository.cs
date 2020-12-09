@@ -45,7 +45,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
                 return (new List<T>());
             }
 
-            using (FileStream fs = new FileStream(filePath[FileTypes], FileMode.OpenOrCreate)) ;
+            using (FileStream fs = new FileStream(filePath[FileTypes], FileMode.OpenOrCreate));
 
             ListItems<T> listItems = new ListItems<T>();
 
@@ -62,6 +62,44 @@ namespace BdoDailyCatBot.DataAccess.Repositories
 
             return listItems.listItems;
         }
+
+        public async Task<bool> Update<T>(T item, FileTypes fileType) where T : ToFile
+        {
+            if (!filePath.ContainsKey(fileType))
+            {
+                return false;
+            }
+
+            using (FileStream fs = new FileStream(filePath[fileType], FileMode.OpenOrCreate));
+
+            ListItems<T> listItems = new ListItems<T>();
+
+            using (StreamReader sr = new StreamReader(filePath[fileType]))
+            {
+                string json = await sr.ReadToEndAsync();
+
+                if (json != "")
+                {
+                    listItems = JsonConvert.DeserializeObject<ListItems<T>>(json);
+                }
+
+            }
+
+            using (StreamWriter fs = new StreamWriter(filePath[fileType], false))
+            {
+                bool flag = false;
+
+                T itemToUpdate = listItems.listItems.Find(x => x.Id == item.Id);
+                listItems.listItems.Remove(itemToUpdate);
+                listItems.listItems.Add(item);
+
+                var json = JsonConvert.SerializeObject(listItems, Formatting.Indented);
+
+                await fs.WriteAsync(json);
+                return flag;
+            }
+        }
+
 
         public async Task<bool> Add<T>(T item, FileTypes FileTypes) where T: ToFile
         {

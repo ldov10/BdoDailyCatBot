@@ -16,14 +16,14 @@ namespace BdoDailyCatBot.Views.Console
 
         public void RunConsoleListner()
         {
-            ConsoleListnerAsync().ConfigureAwait(false);
+            ConsoleListner();
         }
 
-        private async Task ConsoleListnerAsync()
+        private void ConsoleListner()
         {
             while (true)
             {
-                this.Message = await System.Console.In.ReadLineAsync();
+                this.Message =  System.Console.ReadLine();
 
                 SendMessage?.Invoke();
             }

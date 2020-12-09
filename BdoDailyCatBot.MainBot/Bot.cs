@@ -16,6 +16,7 @@ namespace BdoDailyCatBot.MainBot
         public DiscordClient Client { get; private set; }
         public event Action<MessageCreateEventArgs> MessageSended;
         public event Action<MessageReactionAddEventArgs> MessageReactionAdded;
+        public event Action<MessageReactionRemoveEventArgs> MessageReactionRemoved;
 
         private Emoji emoji;
 
@@ -27,6 +28,7 @@ namespace BdoDailyCatBot.MainBot
 
             Client.MessageCreated += MessageCreated;
             Client.MessageReactionAdded += ReactionAdded;
+            Client.MessageReactionRemoved += ReactionRemoved;
 
             await Client.ConnectAsync();
 
@@ -40,9 +42,22 @@ namespace BdoDailyCatBot.MainBot
             MessageReactionAdded?.Invoke(e);
         }
 
+        public async Task ReactionRemoved(MessageReactionRemoveEventArgs e)
+        {
+            MessageReactionRemoved?.Invoke(e);
+        }
+
         public Dictionary<Reactions, DiscordEmoji> GetEmojiDictionary()
         {
             return emoji.EmojiDictionary;
+        }
+
+        public DiscordEmbed BuildEmbed(string title, string fieldName, string fieldValue)
+        {
+            DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
+            discordEmbedBuilder.Title = title;
+            discordEmbedBuilder.AddField(fieldName, fieldValue);
+            return discordEmbedBuilder.Build();
         }
 
         private void DelChannelsByName(string name, ulong guildId)
@@ -57,6 +72,11 @@ namespace BdoDailyCatBot.MainBot
         public async Task<ulong> SendMessageAsync(DiscordChannel discordChannel, string mes)
         {
             return (await Client.SendMessageAsync(discordChannel, mes)).Id;
+        }
+
+        public async Task<ulong> SendMessageAsync(DiscordChannel discordChannel, DiscordEmbed embed)
+        {
+            return (await Client.SendMessageAsync(discordChannel, null, false, embed)).Id;
         }
 
         public string GetEmoji(Reactions reaction)

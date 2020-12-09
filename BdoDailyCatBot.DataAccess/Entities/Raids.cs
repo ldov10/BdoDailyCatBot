@@ -6,7 +6,7 @@ namespace BdoDailyCatBot.DataAccess.Entities
 {
     public class Raids : ToFile
     {
-        public int Id { get; set; } = 0;
+        public ulong Id { get; set; } = 0;
         public string CaptainName { get; set; } = "";
         public string Channel { get; set; } = "";
         public ulong ChannelAssemblyId { get; set; } = 0; 

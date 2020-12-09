@@ -4,7 +4,8 @@ using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    public abstract class ToFile
+    public interface ToFile
     {
+        public ulong Id { get; set; }
     }
 }

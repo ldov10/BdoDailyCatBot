@@ -15,8 +15,8 @@ namespace BdoDailyCatBot.DataAccess.Entities
             this.Name = name;
         }
 
-        public ulong Id { get; private set; }
-        public string Name { get; private set; }
+        public ulong Id { get; set; }
+        public string Name { get; set; }
 
         public override bool Equals(object obj)
         {
