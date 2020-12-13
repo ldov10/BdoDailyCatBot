@@ -39,6 +39,11 @@ namespace BdoDailyCatBot.Views.Discord
             return Bot.SendMessageAsync(Bot.GetChannelById(channelId), Bot.BuildEmbed(title, fieldName, fieldValue)).Result;
         }
 
+        public void DeleteChannel(ulong channeld)
+        {
+            Bot.DeleteChannel(Bot.GetChannelById(channeld));
+        }
+
         public void AddReactionToMes(Message mes, Reactions reaction)
         {
             Bot.AddReactionToMesAsync(Bot.GetMessageById(mes.ChannelId, mes.ID), reaction);
@@ -59,6 +64,23 @@ namespace BdoDailyCatBot.Views.Discord
             var member = Bot.GetMemberByIdAsync(userId, guildId).Result;
 
             return member.Roles.Select(x => x.Name).ToList();
+        }
+
+        public void EditMessage(ulong messageId, ulong channelId, string mes)
+        {
+            Bot.EditMessage(messageId, channelId, mes);
+        }
+
+        public void EditMessage(ulong messageId, ulong channelId, string embedTitle, string embedFieldName, string embedFieldValue)
+        {
+            var embed = Bot.BuildEmbed(embedTitle, embedFieldName, embedFieldValue);
+            Bot.EditMessage(messageId, channelId, default, embed);
+        }
+
+        public void EditMessage(ulong messageId, ulong channelId, string embedTitle, string embedFieldName, string embedFieldValue, string message)
+        {
+            var embed = Bot.BuildEmbed(embedTitle, embedFieldName, embedFieldValue);
+            Bot.EditMessage(messageId, channelId, message, embed);
         }
 
         public ulong GetGuildIdByChannel(ulong channelId)

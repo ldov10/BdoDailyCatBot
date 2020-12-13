@@ -22,14 +22,14 @@ namespace BdoDailyCatBot {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    internal class GeneralResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal GeneralResource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BdoDailyCatBot {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.GeneralResource", typeof(GeneralResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -180,6 +180,15 @@ namespace BdoDailyCatBot {
         internal static string RaidsDirectoryPath {
             get {
                 return ResourceManager.GetString("RaidsDirectoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Рейд уже должен был отплыть..
+        /// </summary>
+        internal static string RaidWhenStart {
+            get {
+                return ResourceManager.GetString("RaidWhenStart", resourceCulture);
             }
         }
     }

@@ -28,24 +28,9 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             db.Entry(user).State = EntityState.Modified;
         }
 
-        public async Task<bool> Add(Users user)
+        public async Task Add(Users user)
         {
-            if ((await db.Users.Where(p => p.IdDiscord == user.IdDiscord).ToListAsync()).Count > 0)
-            {
-                return false;
-            }
-
-            try
-            {
-                await db.Users.AddAsync(user);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message); // TODO: ...
-            }
-
-            return false;
+            await db.Users.AddAsync(user);
         }
     }
 }

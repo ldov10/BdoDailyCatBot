@@ -13,12 +13,16 @@ namespace BdoDailyCatBot.Views.Interfaces
     {
         ulong SendMessage(string mes, ulong channelId);
         ulong SendEmbedMessage(string title, string fieldName, string fieldValue, ulong channelId);
+        void EditMessage(ulong messageId, ulong channelId, string mes);
+        void EditMessage(ulong messageId, ulong channelId, string embedTitle, string embedFieldName, string embedFieldValue);
+        void EditMessage(ulong messageId, ulong channelId, string embedTitle, string embedFieldName, string embedFieldValue, string message);
         void AddReactionToMes(Message mes, Reactions reaction);
         void AddReactionToMes(ulong messageId, ulong channelId, Reactions reaction);
         ulong CreateChannel(ulong channelNeighborId, string channelName);
         List<string> GetUserRoles(ulong userId, ulong guildId);
         ulong GetGuildIdByChannel(ulong channelId);
         string GetEmoji(Reactions reaction);
+        void DeleteChannel(ulong channeld);
 
 
         event Action<Message> MessageSended;

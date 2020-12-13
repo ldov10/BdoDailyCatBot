@@ -11,7 +11,7 @@ using DSharpPlus.Interactivity.EventHandling;
 
 namespace BdoDailyCatBot.MainBot
 {
-    public class Bot : Interfaces.IBot //Inotifypropchanged / collection
+    public class Bot : Interfaces.IBot
     {
         public DiscordClient Client { get; private set; }
         public event Action<MessageCreateEventArgs> MessageSended;
@@ -52,6 +52,12 @@ namespace BdoDailyCatBot.MainBot
             return emoji.EmojiDictionary;
         }
 
+        public void EditMessage(ulong messageId, ulong channelId, string mes = default, DiscordEmbed discordEmbed = default)
+        {
+            var message = GetMessageById(channelId, messageId);
+            message.ModifyAsync(mes, discordEmbed);
+        }
+
         public DiscordEmbed BuildEmbed(string title, string fieldName, string fieldValue)
         {
             DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
@@ -67,6 +73,11 @@ namespace BdoDailyCatBot.MainBot
             var channels = guild.Channels.Values.Where(x => x.Name == name).ToList();
 
             channels.ForEach(x => x.DeleteAsync());
+        }
+
+        public async Task DeleteChannel(DiscordChannel channel)
+        {
+            await channel.DeleteAsync();
         }
 
         public async Task<ulong> SendMessageAsync(DiscordChannel discordChannel, string mes)

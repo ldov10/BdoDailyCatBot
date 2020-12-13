@@ -15,6 +15,9 @@ namespace BdoDailyCatBot.DataAccess.Entities
         public int ReservedUsers { get; set; } = 1;
         public int UsersInRaid { get; set; } = 0;
         public ulong MessageId { get; set; } = 0;
+        public bool IsAssembling { get; set; } = false;
+        public bool IsStarted { get; set; } = false;
+        public ulong TableMessageId { get; set; } = 0;
         public List<Users> Users { get; set; } = new List<Users>();
 
         public override bool Equals(object obj)

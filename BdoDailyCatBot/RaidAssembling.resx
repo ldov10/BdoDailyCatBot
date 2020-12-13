@@ -120,21 +120,6 @@
   <data name="CaptainRoleName" xml:space="preserve">
     <value>Капитан</value>
   </data>
-  <data name="ChannelsDirectoryPath" xml:space="preserve">
-    <value>Channels</value>
-  </data>
-  <data name="ChannelsToReg" xml:space="preserve">
-    <value>/ChannelsToReg.json</value>
-  </data>
-  <data name="CurrentRaids" xml:space="preserve">
-    <value>/CurrentRaids.json</value>
-  </data>
-  <data name="NamePattern" xml:space="preserve">
-    <value>([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$</value>
-  </data>
-  <data name="Prefix" xml:space="preserve">
-    <value>!</value>
-  </data>
   <data name="RaidAddedCaptainName" xml:space="preserve">
     <value>
 Капитан </value>
@@ -161,5 +146,8 @@
   </data>
   <data name="RaidsDirectoryPath" xml:space="preserve">
     <value>Raids</value>
+  </data>
+  <data name="RaidWhenStart" xml:space="preserve">
+    <value>Рейд уже должен был отплыть.</value>
   </data>
 </root>

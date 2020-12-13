@@ -7,6 +7,7 @@ using BdoDailyCatBot.Views.Interfaces;
 using System.Linq;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Resources;
 
 namespace BdoDailyCatBot.BusinessLogic.Services
 {
@@ -16,27 +17,32 @@ namespace BdoDailyCatBot.BusinessLogic.Services
         private readonly IViewDiscordChannel viewDiscordChannel;
         private readonly IBot bot;
         private readonly IFilesRepository files;
+        private readonly ResourceManager resourceCC;
+        private readonly ResourceManager resourceCO;
 
-        public ConsoleService(IViewConsole viewConsole, IViewDiscordChannel viewDiscordChannel, IBot bot, IFilesRepository filesRepository)
+        public ConsoleService(IViewConsole viewConsole, IViewDiscordChannel viewDiscordChannel, IBot bot, IFilesRepository filesRepository,
+            ResourceManager resourceConsoleCommands, ResourceManager resourceConsoleOutput)
         {
             this.viewConsole = viewConsole;
             this.viewDiscordChannel = viewDiscordChannel;
             this.bot = bot;
             this.files = filesRepository;
+            this.resourceCC = resourceConsoleCommands;
+            this.resourceCO = resourceConsoleOutput;
 
             viewConsole.SendMessage += MessageSended;
             
         }
 
-        private void MessageSended() // TODO: change select
+        private void MessageSended()
         {
-            if (this.viewConsole.Message == "SendMessage")
+            if (this.viewConsole.Message == resourceCC.GetString("SendMessage"))
             {
                 SendMessageToChannel();
                 return;
             }
 
-            if (this.viewConsole.Message == "AddChannelToReg")
+            if (this.viewConsole.Message == resourceCC.GetString("AddChannelToReg"))
             {
                 AddChannelToReg();
                 return;
@@ -45,7 +51,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
         private void SendMessageToChannel()
         {
-            System.Console.WriteLine("Select guild:");
+            System.Console.WriteLine(resourceCO.GetString("Select guild:"));
 
             int i = 0;
 
@@ -61,7 +67,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             if (Int32.TryParse(Input, out int guildInput) && (guildInput <= i && guildInput >= 0))
             {
-                System.Console.WriteLine("Select channle:");
+                System.Console.WriteLine(resourceCO.GetString("Select channle:"));
 
                 var Channels = guilds[guildInput].Channels.Values.ToList();
 
@@ -77,27 +83,27 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                 if (Int32.TryParse(Input, out int channleInput) && (channleInput <= i && channleInput >= 0))
                 {
-                    System.Console.WriteLine("Write message: ");
+                    System.Console.WriteLine(resourceCO.GetString("Write message:"));
                     string message = System.Console.ReadLine();
 
                     viewDiscordChannel.SendMessage(message, Channels[channleInput].Id);
                 }
                 else
                 {
-                    System.Console.WriteLine("Wrong choise");
+                    System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
                     return;
                 }
             }
             else
             {
-                System.Console.WriteLine("Wrong choise");
+                System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
                 return;
             }
         }
 
         private void AddChannelToReg()
         {
-            System.Console.WriteLine("Select guild:"); // TODO: If select > then count of guild program will end
+            System.Console.WriteLine(resourceCO.GetString("Select guild:"));
 
             int i = 0;
 
@@ -113,7 +119,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             if (Int32.TryParse(Input, out int guildInput) && (guildInput <= i && guildInput >= 0))
             {
-                System.Console.WriteLine("Select channle:");
+                System.Console.WriteLine(resourceCO.GetString("Select channle:"));
 
                 var Channels = guilds[guildInput].Channels.Values.ToList();
 
@@ -129,17 +135,18 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                 if (Int32.TryParse(Input, out int channleInput) && (channleInput <= i && channleInput >= 0))
                 {
-                    files.Add<DataAccess.Entities.Channels>(new DataAccess.Entities.Channels(Channels[channleInput].Id, Channels[channleInput].Name), DataAccess.Entities.FileTypes.ChannelsToReg); // TODO: Automap?
+                    files.Add<DataAccess.Entities.Channels>(
+                        new DataAccess.Entities.Channels(Channels[channleInput].Id, Channels[channleInput].Name), DataAccess.Entities.FileTypes.ChannelsToReg);
                 }
                 else
                 {
-                    System.Console.WriteLine("Wrong choise");
+                    System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
                     return;
                 }
             }
             else
             {
-                System.Console.WriteLine("Wrong choise");
+                System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
                 return;
             }
         }

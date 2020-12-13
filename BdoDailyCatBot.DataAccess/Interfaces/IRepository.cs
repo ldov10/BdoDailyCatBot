@@ -9,6 +9,6 @@ namespace BdoDailyCatBot.DataAccess.Interfaces
     {
         IEnumerable<T> GetAll();
         void Update(T item);
-        Task<bool> Add(T item);
+        Task Add(T item);
     }
 }

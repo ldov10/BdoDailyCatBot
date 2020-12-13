@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Update.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BdoDailyCatBot.DataAccess.Entities;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,9 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             return new List<Captains>();
         }
 
-        public async Task<bool> Add(Captains captain)
+        public async Task Add(Captains captain)
         {
-            return false;
+            
         }
     }
 }

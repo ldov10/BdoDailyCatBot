@@ -23,6 +23,8 @@ namespace BdoDailyCatBot.MainBot.Interfaces
         public Task<DiscordChannel> CreateTextChannelAsync(ulong guildId, string name, DiscordChannel parent);
         public DiscordMessage GetMessageById(ulong channelId, ulong id);
         void AddReactionToMesAsync(DiscordMessage mes, Reactions reaction);
+        void EditMessage(ulong messageId, ulong channelId, string mes = default, DiscordEmbed discordEmbed = default);
+        Task DeleteChannel(DiscordChannel channel);
 
         public event Action<MessageCreateEventArgs> MessageSended;
         public event Action<MessageReactionAddEventArgs> MessageReactionAdded;

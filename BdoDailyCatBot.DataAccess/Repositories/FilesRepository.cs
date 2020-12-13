@@ -38,6 +38,44 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             }
         }
 
+        public async Task<bool> Delete<T>(T item, FileTypes fileTypes) where T : ToFile
+        {
+            if (!filePath.ContainsKey(fileTypes))
+            {
+                return false;
+            }
+
+            using (FileStream fs = new FileStream(filePath[fileTypes], FileMode.OpenOrCreate)) ;
+
+            ListItems<T> listItems = new ListItems<T>();
+
+            using (StreamReader sr = new StreamReader(filePath[fileTypes]))
+            {
+                string json = await sr.ReadToEndAsync();
+
+                if (json != "")
+                {
+                    listItems = JsonConvert.DeserializeObject<ListItems<T>>(json);
+                }
+
+            }
+
+            using (StreamWriter fs = new StreamWriter(filePath[fileTypes], false))
+            {
+                bool flag = false;
+                if (listItems.listItems.Contains(item))
+                {
+                    listItems.listItems.Remove(item);
+                    flag = true;
+                }
+
+                var json = JsonConvert.SerializeObject(listItems, Formatting.Indented);
+
+                await fs.WriteAsync(json);
+                return flag;
+            }
+        }
+
         public async Task<List<T>> GetAll<T>(FileTypes FileTypes) where T: ToFile
         {
             if (!filePath.ContainsKey(FileTypes))

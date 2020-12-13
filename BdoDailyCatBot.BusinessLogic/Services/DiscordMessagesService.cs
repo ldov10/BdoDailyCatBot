@@ -1,5 +1,6 @@
 ﻿using BdoDailyCatBot.BusinessLogic.BusinessModels;
 using BdoDailyCatBot.DataAccess.Interfaces;
+using BdoDailyCatBot.BusinessLogic.Interfaces;
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -19,41 +20,51 @@ namespace BdoDailyCatBot.BusinessLogic.Services
         private readonly IViewDiscordChannel viewDiscordChannel;
         private readonly IFilesRepository files;
         private readonly IUnitOfWork dataBase;
-        private readonly RaidsService raidsService; // TODO: It's not good
+        private readonly IRaidsService raidsService;
+
+        private readonly ResourceManager resourceDMC;
+
+        private readonly Mapper mapperUserToUsers;
 
         public string Prefix { get; private set; }
         public string NamePattern { get; private set; }
 
-        public DiscordMessagesService(ResourceManager resourceManager, IViewDiscordChannel viewDiscordChannel, IFilesRepository filesRepository,
-            IUnitOfWork dataBase, RaidsService raidsService)
+        public DiscordMessagesService(ResourceManager resourceGeneralManager, ResourceManager resourceDiscordMessagesCommands
+            , IViewDiscordChannel viewDiscordChannel, IFilesRepository filesRepository,
+            IUnitOfWork dataBase, IRaidsService raidsService)
         {
             this.viewDiscordChannel = viewDiscordChannel;
             this.files = filesRepository;
-            this.Prefix = resourceManager.GetString("Prefix");
-            this.NamePattern = resourceManager.GetString("NamePattern");
+            this.Prefix = resourceGeneralManager.GetString("Prefix");
+            this.NamePattern = resourceGeneralManager.GetString("NamePattern");
             this.dataBase = dataBase;
             this.raidsService = raidsService;
+            this.resourceDMC = resourceDiscordMessagesCommands;
 
             viewDiscordChannel.MessageSended += MessageSended;
             viewDiscordChannel.MessageReactionAdded += ReactionAdded;
             viewDiscordChannel.MessageReactionRemoved += ReactionRemoved;
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, Users>());
+
+            this.mapperUserToUsers = new Mapper(config);
         }
 
         private void MessageSended(Views.Entites.Message e)
         {
             Message mes = new Message() 
-            { Content = e.Content, Channel = new Channel() { Id = e.ChannelId, Name = e.ChannelName }, SenderID = e.SenderID }; // TODO: Automap?
+            { Content = e.Content, Channel = new Channel() { Id = e.ChannelId, Name = e.ChannelName }, SenderID = e.SenderID };
 
             if (mes.Content.StartsWith(Prefix))
             {
-                if (mes.Content == (Prefix + "рег_тут")) // TODO: change select
+                if (mes.Content == (Prefix + resourceDMC.GetString("RegHere")))
                 {
                     viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel) ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
-                if (Regex.IsMatch(mes.Content, $"^{Prefix}рег .+"))
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("Reg")}" + " .+"))
                 {
-                    if (!Regex.IsMatch(mes.Content, $@"^{Prefix}рег \w+$"))
+                    if (!Regex.IsMatch(mes.Content, $@"^{Prefix}{resourceDMC.GetString("Reg")}" + @" \w+$"))
                     {
                         viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                         return;
@@ -79,11 +90,16 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     viewDiscordChannel.AddReactionToMes(e, flag ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
-                if (Regex.IsMatch(mes.Content, $"^{Prefix}к .+")) // TODO: change "к"
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid1")}" + " .+") ||
+                    Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid2")}" + " .+") ||
+                    Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid3")}" + " .+")
+                    )
                 {
                     string Channel = "";
                     DateTime TimeStart = DateTime.Now;
                     DateTime TimeStartAssembly = DateTime.Now.AddMinutes(1);
+                    TimeStartAssembly = TimeStartAssembly.AddSeconds(TimeStartAssembly.Second * -1);
+
                     int ReservedUsers = 1;
 
                     if (TimeStartAssembly.ToShortTimeString() == "00:00")
@@ -198,6 +214,41 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                     viewDiscordChannel.AddReactionToMes(e, IsRaidAdded ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
+
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}перерег .+"))
+                {
+                    if (!Regex.IsMatch(mes.Content, $@"^{Prefix}перерег \w+$"))
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+
+                    if (!files.GetAll<DataAccess.Entities.Channels>(FileTypes.ChannelsToReg).Result.Contains
+                        (new DataAccess.Entities.Channels(e.ChannelId, e.ChannelName)))
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+                    string Name = Regex.Match(mes.Content, NamePattern).Value;
+
+                    if (Name == "")
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+
+                    var user = dataBase.Users.GetAll().FirstOrDefault(p => p.IdDiscord == e.SenderID);
+                    if (user == default)
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+
+                    user.Name = Name;
+                    UpdateUser(user);
+
+                    viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.OK);
+                }
             }
         }
 
@@ -241,17 +292,27 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
         private bool AddUserToDB(User user)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, Users>());
-            var mapper = new Mapper(config);
-            Users users = mapper.Map<User, Users>(user);
-            var flag = dataBase.Users.Add(users).Result;
+            Users users = mapperUserToUsers.Map<User, Users>(user);
+
+            if (dataBase.Users.GetAll().Where(p => p.IdDiscord == user.IdDiscord).ToList().Count > 0)
+            {
+                return false;
+            }
+            
+            dataBase.Users.Add(users);
             dataBase.Save();
-            return flag;
+            return true;
+        }
+
+        private void UpdateUser(Users user)
+        {
+            dataBase.Users.Update(user);
+            dataBase.Save();
         }
 
         private bool AddChannelToReg(Channel channel)
         {
-            var result = files.Add(new DataAccess.Entities.Channels(channel.Id, channel.Name), FileTypes.ChannelsToReg); // TODO: Automap?
+            var result = files.Add(new DataAccess.Entities.Channels(channel.Id, channel.Name), FileTypes.ChannelsToReg);
             return result.Result;
         }
     }
