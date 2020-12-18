@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.DataAccess",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.BusinessLogic", "BdoDailyCatBot.BusinessLogic\BdoDailyCatBot.BusinessLogic.csproj", "{DDB777E7-CDEA-4D7E-9781-F24E2E8A3A8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdoDailyCatBot.Views", "BdoDailyCatBot.Views\BdoDailyCatBot.Views.csproj", "{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.Views", "BdoDailyCatBot.Views\BdoDailyCatBot.Views.csproj", "{C5F30AF4-45BB-4A5C-9A5A-6695176E5785}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdoDailyCatBot.MainBot", "BdoDailyCatBot.MainBot\BdoDailyCatBot.MainBot.csproj", "{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BdoDailyCatBot.MainBot", "BdoDailyCatBot.MainBot\BdoDailyCatBot.MainBot.csproj", "{09E0CDCC-89E5-488C-B71A-9E6A4937BF51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

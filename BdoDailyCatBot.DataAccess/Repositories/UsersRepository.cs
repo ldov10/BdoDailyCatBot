@@ -25,7 +25,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
 
         public void Update(Users user)
         {
-            db.Entry(user).State = EntityState.Modified;
+            var state = db.Entry(user).State = EntityState.Modified;
         }
 
         public async Task Add(Users user)

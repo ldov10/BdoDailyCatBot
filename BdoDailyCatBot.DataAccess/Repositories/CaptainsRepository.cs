@@ -21,17 +21,17 @@ namespace BdoDailyCatBot.DataAccess.Repositories
 
         public void Update(Captains captain)
         {
-            db.Entry(captain).State = EntityState.Modified;
+            var state = db.Entry(captain).State = EntityState.Modified;
         }
 
         public IEnumerable<Captains> GetAll()
         {
-            return new List<Captains>();
+            return db.Captains;
         }
 
         public async Task Add(Captains captain)
         {
-            
+            await db.Captains.AddAsync(captain);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace BdoDailyCatBot.Views.Interfaces
         List<string> GetUserRoles(ulong userId, ulong guildId);
         ulong GetGuildIdByChannel(ulong channelId);
         string GetEmoji(Reactions reaction);
+        bool DoesChannelExist(ulong id);
         void DeleteChannel(ulong channeld);
+        bool DoesMessageExist(ulong mesId, ulong channelId);
 
 
         event Action<Message> MessageSended;

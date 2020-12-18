@@ -22,14 +22,14 @@ namespace BdoDailyCatBot {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GeneralResource {
+    internal class ForFiles {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GeneralResource() {
+        internal ForFiles() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BdoDailyCatBot {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.GeneralResource", typeof(GeneralResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.ForFiles", typeof(ForFiles).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,38 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Доступ к ножу.
+        ///   Ищет локализованную строку, похожую на Channels.
         /// </summary>
-        internal static string AdminRoleName1 {
+        internal static string ChannelsDirectoryPath {
             get {
-                return ResourceManager.GetString("AdminRoleName1", resourceCulture);
+                return ResourceManager.GetString("ChannelsDirectoryPath", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Докер.
+        ///   Ищет локализованную строку, похожую на /ChannelsToReg.json.
         /// </summary>
-        internal static string AdminRoleName2 {
+        internal static string ChannelsToReg {
             get {
-                return ResourceManager.GetString("AdminRoleName2", resourceCulture);
+                return ResourceManager.GetString("ChannelsToReg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Капитан.
+        ///   Ищет локализованную строку, похожую на /CurrentRaids.json.
         /// </summary>
-        internal static string CaptainRoleName {
+        internal static string CurrentRaids {
             get {
-                return ResourceManager.GetString("CaptainRoleName", resourceCulture);
+                return ResourceManager.GetString("CurrentRaids", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$.
+        ///   Ищет локализованную строку, похожую на Raids.
         /// </summary>
-        internal static string NamePattern {
+        internal static string RaidsDirectoryPath {
             get {
-                return ResourceManager.GetString("NamePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на !.
-        /// </summary>
-        internal static string Prefix {
-            get {
-                return ResourceManager.GetString("Prefix", resourceCulture);
+                return ResourceManager.GetString("RaidsDirectoryPath", resourceCulture);
             }
         }
     }

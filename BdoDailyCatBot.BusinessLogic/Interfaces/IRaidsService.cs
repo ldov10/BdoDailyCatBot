@@ -9,5 +9,7 @@ namespace BdoDailyCatBot.BusinessLogic.Interfaces
     {
         bool AddRaid(Raid raid, ulong senderId, ulong channelSenderId);
         void ReactionHeartChanged(Message mes, ulong ReactionSenderId, bool heartAdded);
+        ulong GetRaidId(ulong channelAssemblyId);
+        void DeleteRaid(ulong raidId);
     }
 }

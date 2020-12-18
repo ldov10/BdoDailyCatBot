@@ -88,7 +88,34 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Reg.
+        ///   Ищет локализованную строку, похожую на удали_рейд.
+        /// </summary>
+        internal static string DeleteRaid1 {
+            get {
+                return ResourceManager.GetString("DeleteRaid1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на help.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на перерег.
+        /// </summary>
+        internal static string Re_register {
+            get {
+                return ResourceManager.GetString("Re-register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на рег.
         /// </summary>
         internal static string Reg {
             get {

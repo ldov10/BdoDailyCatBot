@@ -22,14 +22,14 @@ namespace BdoDailyCatBot {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GeneralResource {
+    internal class Patterns {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GeneralResource() {
+        internal Patterns() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BdoDailyCatBot {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.GeneralResource", typeof(GeneralResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.Patterns", typeof(Patterns).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,38 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Доступ к ножу.
+        ///   Ищет локализованную строку, похожую на (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d.
         /// </summary>
-        internal static string AdminRoleName1 {
+        internal static string Channel_TimeStart {
             get {
-                return ResourceManager.GetString("AdminRoleName1", resourceCulture);
+                return ResourceManager.GetString("Channel-TimeStart", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Докер.
+        ///   Ищет локализованную строку, похожую на (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9])).
         /// </summary>
-        internal static string AdminRoleName2 {
+        internal static string Channel_TimeStart_ReservedUsers {
             get {
-                return ResourceManager.GetString("AdminRoleName2", resourceCulture);
+                return ResourceManager.GetString("Channel-TimeStart-ReservedUsers", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Капитан.
+        ///   Ищет локализованную строку, похожую на (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d.
         /// </summary>
-        internal static string CaptainRoleName {
+        internal static string Channel_TimeStart_TimeStartAssembly {
             get {
-                return ResourceManager.GetString("CaptainRoleName", resourceCulture);
+                return ResourceManager.GetString("Channel-TimeStart-TimeStartAssembly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9])).
+        /// </summary>
+        internal static string Channel_TimeStart_TimeStartAssembly_ReserverUsers {
+            get {
+                return ResourceManager.GetString("Channel-TimeStart-TimeStartAssembly-ReserverUsers", resourceCulture);
             }
         }
         
@@ -93,15 +102,6 @@ namespace BdoDailyCatBot {
         internal static string NamePattern {
             get {
                 return ResourceManager.GetString("NamePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на !.
-        /// </summary>
-        internal static string Prefix {
-            get {
-                return ResourceManager.GetString("Prefix", resourceCulture);
             }
         }
     }

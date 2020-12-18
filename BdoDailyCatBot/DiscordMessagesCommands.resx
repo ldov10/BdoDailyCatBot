@@ -126,8 +126,17 @@
   <data name="CreateRaid3" xml:space="preserve">
     <value>кэп</value>
   </data>
+  <data name="DeleteRaid1" xml:space="preserve">
+    <value>удали_рейд</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>help</value>
+  </data>
+  <data name="Re-register" xml:space="preserve">
+    <value>перерег</value>
+  </data>
   <data name="Reg" xml:space="preserve">
-    <value>Reg</value>
+    <value>рег</value>
   </data>
   <data name="RegHere" xml:space="preserve">
     <value>рег_тут</value>

@@ -44,6 +44,16 @@ namespace BdoDailyCatBot.Views.Discord
             Bot.DeleteChannel(Bot.GetChannelById(channeld));
         }
 
+        public bool DoesChannelExist(ulong id)
+        {
+            return Bot.DoesChannelExist(id);
+        }
+
+        public bool DoesMessageExist(ulong mesId, ulong channelId)
+        {
+            return Bot.DoesMessageExist(mesId, channelId).Result;
+        }
+
         public void AddReactionToMes(Message mes, Reactions reaction)
         {
             Bot.AddReactionToMesAsync(Bot.GetMessageById(mes.ChannelId, mes.ID), reaction);

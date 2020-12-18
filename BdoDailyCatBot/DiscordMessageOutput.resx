@@ -117,19 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminRoleName1" xml:space="preserve">
-    <value>Доступ к ножу</value>
-  </data>
-  <data name="AdminRoleName2" xml:space="preserve">
-    <value>Докер</value>
-  </data>
-  <data name="CaptainRoleName" xml:space="preserve">
-    <value>Капитан</value>
-  </data>
-  <data name="NamePattern" xml:space="preserve">
-    <value>([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$</value>
-  </data>
-  <data name="Prefix" xml:space="preserve">
-    <value>!</value>
+  <data name="Help" xml:space="preserve">
+    <value>__Команды для создания рейдов:__
+`!к [канал] [время старта]`
+`!к [канал] [время старта] [время старта сбора]`
+`!к [канал] [время старта] [забронировано мест]`
+`!к [канал] [время старта] [время старта сбора] [забронировано мест ]`
+**\*Вместо !к так можно использовать !кэп и !капитан**
+__Команды для регистрации:__
+`!рег [фамилия персонажа в игре]`
+`!перерег [фамилия персонажа в игре]`
+`!рег_тут `***Только для администраторов, указывает канал для регистрации**
+__Для капитанов:__
+`!удали_рейд` **Удаляет рейд в данном канале, только для капитанов**
+__Прочее:__
+`!help` **Вызывает это сообщение**</value>
   </data>
 </root>

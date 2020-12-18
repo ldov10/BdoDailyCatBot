@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BdoDailyCatBot.DataAccess.Entities
+namespace BdoDailyCatBot.DataAccess.Interfaces
 {
-    public interface ToFile
+    public interface IToFile
     {
         public ulong Id { get; set; }
     }

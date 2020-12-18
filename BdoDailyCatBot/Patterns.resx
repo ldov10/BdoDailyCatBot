@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminRoleName1" xml:space="preserve">
-    <value>Доступ к ножу</value>
+  <data name="Channel-TimeStart" xml:space="preserve">
+    <value>(([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d</value>
   </data>
-  <data name="AdminRoleName2" xml:space="preserve">
-    <value>Докер</value>
+  <data name="Channel-TimeStart-ReservedUsers" xml:space="preserve">
+    <value>(([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9]))</value>
   </data>
-  <data name="CaptainRoleName" xml:space="preserve">
-    <value>Капитан</value>
+  <data name="Channel-TimeStart-TimeStartAssembly" xml:space="preserve">
+    <value>(([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d</value>
+  </data>
+  <data name="Channel-TimeStart-TimeStartAssembly-ReserverUsers" xml:space="preserve">
+    <value>(([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9]))</value>
   </data>
   <data name="NamePattern" xml:space="preserve">
     <value>([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$</value>
-  </data>
-  <data name="Prefix" xml:space="preserve">
-    <value>!</value>
   </data>
 </root>

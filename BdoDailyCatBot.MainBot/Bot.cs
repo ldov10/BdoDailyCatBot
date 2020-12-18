@@ -34,12 +34,25 @@ namespace BdoDailyCatBot.MainBot
 
             this.emoji = new Emoji(Client);
 
-            //DelChannelsByName("2200-ldov10", 619240990858936321);
         }
 
         private async Task ReactionAdded(MessageReactionAddEventArgs e)
         {
             MessageReactionAdded?.Invoke(e);
+        }
+
+        public async Task<bool> DoesMessageExist(ulong mesId, ulong channelId)
+        {
+            var channel = await Client.GetChannelAsync(channelId);
+            if (channel != default)
+            {
+                if (await channel.GetMessageAsync(mesId) != default)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
 
         public async Task ReactionRemoved(MessageReactionRemoveEventArgs e)
@@ -50,6 +63,11 @@ namespace BdoDailyCatBot.MainBot
         public Dictionary<Reactions, DiscordEmoji> GetEmojiDictionary()
         {
             return emoji.EmojiDictionary;
+        }
+
+        public DiscordGuild GetGuildByChannelId(ulong channelId)
+        {
+            return GetBotGuilds().FirstOrDefault(x => x.Channels.Keys.Contains(channelId));
         }
 
         public void EditMessage(ulong messageId, ulong channelId, string mes = default, DiscordEmbed discordEmbed = default)
@@ -66,18 +84,18 @@ namespace BdoDailyCatBot.MainBot
             return discordEmbedBuilder.Build();
         }
 
-        private void DelChannelsByName(string name, ulong guildId)
-        {
-            var guild = Client.GetGuildAsync(guildId).Result;
-
-            var channels = guild.Channels.Values.Where(x => x.Name == name).ToList();
-
-            channels.ForEach(x => x.DeleteAsync());
-        }
-
         public async Task DeleteChannel(DiscordChannel channel)
         {
             await channel.DeleteAsync();
+        }
+
+        public bool DoesChannelExist(ulong id)
+        {
+            if (Client.GetChannelAsync(id).IsCompleted)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<ulong> SendMessageAsync(DiscordChannel discordChannel, string mes)
@@ -116,17 +134,17 @@ namespace BdoDailyCatBot.MainBot
 
         public DiscordChannel GetChannelById(ulong id)
         {
-            return Channels.GetChannelById(id, this).Result;
+            return Client.GetChannelAsync(id).Result;
         }
 
         public DiscordMessage GetMessageById(ulong channelId, ulong id)
         {
-            return Channels.GetChannelById(channelId, this).Result.GetMessageAsync(id).Result;
+            return Client.GetChannelAsync(channelId).Result.GetMessageAsync(id).Result;
         }
 
         public List<DiscordGuild> GetBotGuilds()
         {
-            return Guilds.GetBotGuilds(this);
+            return Client.Guilds.Values.ToList();
         }
 
         public async Task MessageCreated(MessageCreateEventArgs e)

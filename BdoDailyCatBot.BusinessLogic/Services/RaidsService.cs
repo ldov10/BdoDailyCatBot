@@ -86,16 +86,19 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                 return false;
             }
 
-            var user = database.Users.GetAll().FirstOrDefault(p => p.IdDiscord == senderId);
-            raid.CaptainName = user.Name.Trim();
+            var captain = database.Users.GetAll().FirstOrDefault(p => p.IdDiscord == senderId);
+            raid.CaptainName = captain.Name.Trim();
 
-            if (!user.IsCaptain)
+            if (!captain.IsCaptain)
             {
-                user.IsCaptain = true;
-                database.Users.Update(user);
+                captain.IsCaptain = true;
+                database.Users.Update(captain);
+                database.Captains.Add(new Captains() { DroveRaids = 0, LastDrivenRaid = null, User = captain });
+                database.Save();
             }
 
             raid.Id = GenerateId();
+            raid.CaptainUserId = captain.Id;
             
             string mes = BuildString(raid);
 
@@ -110,7 +113,10 @@ namespace BdoDailyCatBot.BusinessLogic.Services
             raid.timerHourAfterStart = new TimerCallback(raid.TimeStart + new TimeSpan(1, 0, 0), raid.HourAfterStart);
 
             currentRaids.Add(raid);
-            viewDiscordChannel.AddReactionToMes(raid.MessageId, raid.ChannelAssemblyId, Reactions.HEART);
+            if (viewDiscordChannel.DoesMessageExist(raid.MessageId, raid.ChannelAssemblyId))
+            {
+                viewDiscordChannel.AddReactionToMes(raid.MessageId, raid.ChannelAssemblyId, Reactions.HEART);
+            }
 
             Raids raids = mapperRaidToRaids.Map<Raid, Raids>(raid);
             files.Add<Raids>(raids, FileTypes.CurrentRaids);
@@ -144,17 +150,40 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             raid.IsAssembling = true;
 
+            Raids raids = mapperRaidToRaids.Map<Raid, Raids>(raid);
+            files.Update<Raids>(raids, FileTypes.CurrentRaids);
+
             SendRaidTable(raid);
         }
 
         public void HourAfterStart(Raid raid)
         {
-            viewDiscordChannel.DeleteChannel(raid.ChannelAssemblyId);
+            DeleteRaid(raid.Id);
+        }
+
+        public void DeleteRaid(ulong raidId)
+        {
+            var raid = currentRaids.Find(x => x.Id == raidId);
+
             files.Delete(mapperRaidToRaids.Map<Raid, Raids>(raid), FileTypes.CurrentRaids);
             if (currentRaids.Contains(raid))
             {
                 currentRaids.Remove(raid);
             }
+            if (viewDiscordChannel.DoesChannelExist(raid.ChannelAssemblyId))
+            {
+                viewDiscordChannel.DeleteChannel(raid.ChannelAssemblyId);
+            }
+        }
+
+        public ulong GetRaidId(ulong channelAssemblyId)
+        {
+            var raid = currentRaids.FirstOrDefault(x => x.ChannelAssemblyId == channelAssemblyId);
+            if (raid == default)
+            {
+                return default;
+            }
+            return raid.Id;
         }
 
         public void StartRaid(Raid raid)
@@ -165,8 +194,29 @@ namespace BdoDailyCatBot.BusinessLogic.Services
             }
 
             raid.IsStarted = true;
+            Raids raids = mapperRaidToRaids.Map<Raid, Raids>(raid);
+            files.Update<Raids>(raids, FileTypes.CurrentRaids);
 
-            viewDiscordChannel.SendMessage(BuildStringWhenStart(), raid.ChannelAssemblyId);
+            if (viewDiscordChannel.DoesChannelExist(raid.ChannelAssemblyId))
+            {
+                viewDiscordChannel.SendMessage(BuildStringWhenStart(), raid.ChannelAssemblyId);
+            }
+
+            var cap = database.Captains.GetAll().FirstOrDefault(x => x.UserId == raid.CaptainUserId);
+            if (cap != default)
+            {
+                cap.LastDrivenRaid = raid.TimeStart;
+                cap.DroveRaids++;
+                database.Captains.Update(cap);
+            }
+            database.Save();
+            foreach (var item in raid.Users)
+            {
+                item.LastRaidDate = raid.TimeStart;
+                item.RaidsVisited++;
+                database.Users.Update(mapperUserToUsers.Map<User, Users>(item));
+            }
+            database.Save();
         }
 
         public void ReactionHeartChanged(Message mes, ulong ReactionSenderId, bool heartAdded)
@@ -238,20 +288,28 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
         private void EditMainString(Raid raid)
         {
-            viewDiscordChannel.EditMessage(raid.MessageId, raid.ChannelAssemblyId, BuildString(raid));
+            if (viewDiscordChannel.DoesMessageExist(raid.MessageId, raid.ChannelAssemblyId))
+            {
+                viewDiscordChannel.EditMessage(raid.MessageId, raid.ChannelAssemblyId, BuildString(raid));
+            }
         }
 
         private void SendRaidTable(Raid raid)
         {
-            string title = raid.CaptainName + " " + raid.TimeStart.ToShortTimeString() + " " + raid.Channel;
+            if (viewDiscordChannel.DoesChannelExist(raid.ChannelAssemblyId))
+            {
+                string title = raid.CaptainName + " " + raid.TimeStart.ToShortTimeString() + " " + raid.Channel;
 
-            if (raid.TableMessageId == default)
-            {
-                raid.TableMessageId = viewDiscordChannel.SendEmbedMessage(title, "\u200B", BuildStringTable(raid), raid.ChannelAssemblyId);
-            }
-            else
-            {
-                viewDiscordChannel.EditMessage(raid.TableMessageId, raid.ChannelAssemblyId, title, "\u200B", BuildStringTable(raid));
+                if (raid.TableMessageId == default)
+                {
+                    raid.TableMessageId = viewDiscordChannel.SendEmbedMessage(title, "\u200B", BuildStringTable(raid), raid.ChannelAssemblyId);
+                    Raids raids = mapperRaidToRaids.Map<Raid, Raids>(raid);
+                    files.Update<Raids>(raids, FileTypes.CurrentRaids);
+                }
+                else
+                {
+                    viewDiscordChannel.EditMessage(raid.TableMessageId, raid.ChannelAssemblyId, title, "\u200B", BuildStringTable(raid));
+                }
             }
         }
 

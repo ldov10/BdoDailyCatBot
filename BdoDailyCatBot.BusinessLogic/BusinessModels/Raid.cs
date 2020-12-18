@@ -12,11 +12,12 @@ namespace BdoDailyCatBot.BusinessLogic.BusinessModels
     {
         public ulong Id { get; set; } = 0;
         public string CaptainName { get; set; } = "";
+        public int CaptainUserId { get; set; } = 0;
         public string Channel { get; set; } = "";
         public ulong ChannelAssemblyId { get; set; } = 0;
         public DateTime TimeStart { get; set; } = new DateTime();
         public DateTime TimeStartAssembly { get; set; } = new DateTime();
-        public int ReservedUsers { get; set; } = 1;
+        public int ReservedUsers { get; set; } = 0;
         public int UsersInRaid { get; set; } = 0;
         public ulong MessageId { get; set; } = 0;
         public ulong TableMessageId { get; set; } = 0;

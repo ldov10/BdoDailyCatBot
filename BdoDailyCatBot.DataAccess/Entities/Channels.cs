@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Principal;
+using BdoDailyCatBot.DataAccess.Interfaces;
 using System.Text;
 
 namespace BdoDailyCatBot.DataAccess.Entities
 {
-    public class Channels : ToFile
+    public class Channels : IToFile
     {
         public Channels(ulong id, string name)
         {

@@ -31,15 +31,30 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ConsoleOutput.resx</DependentUpon>
     </Compile>
+    <Compile Update="DiscordMessageOutput.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DiscordMessageOutput.resx</DependentUpon>
+    </Compile>
     <Compile Update="DiscordMessagesCommands.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DiscordMessagesCommands.resx</DependentUpon>
     </Compile>
+    <Compile Update="ForFiles.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ForFiles.resx</DependentUpon>
+    </Compile>
     <Compile Update="GeneralResource.Designer.cs">
       <DependentUpon>GeneralResource.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Patterns.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Patterns.resx</DependentUpon>
     </Compile>
     <Compile Update="RaidAssembling.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -62,13 +77,25 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConsoleOutput.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="DiscordMessageOutput.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiscordMessageOutput.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="DiscordMessagesCommands.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DiscordMessagesCommands.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="ForFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ForFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="GeneralResource.resx">
       <LastGenOutput>GeneralResource.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Patterns.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Patterns.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="RaidAssembling.resx">
       <LastGenOutput>RaidAssembling.Designer.cs</LastGenOutput>

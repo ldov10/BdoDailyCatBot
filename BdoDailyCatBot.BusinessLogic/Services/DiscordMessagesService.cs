@@ -23,15 +23,20 @@ namespace BdoDailyCatBot.BusinessLogic.Services
         private readonly IRaidsService raidsService;
 
         private readonly ResourceManager resourceDMC;
+        private readonly ResourceManager resourceDMO;
+        private readonly ResourceManager resourcePatterns;
 
         private readonly Mapper mapperUserToUsers;
 
         public string Prefix { get; private set; }
         public string NamePattern { get; private set; }
+        public string CaptainRoleName { get; private set; }
+
+        private List<string> AdminRolesName { get; set; } = new List<string>();
 
         public DiscordMessagesService(ResourceManager resourceGeneralManager, ResourceManager resourceDiscordMessagesCommands
             , IViewDiscordChannel viewDiscordChannel, IFilesRepository filesRepository,
-            IUnitOfWork dataBase, IRaidsService raidsService)
+            IUnitOfWork dataBase, IRaidsService raidsService, ResourceManager resourcePatterns, ResourceManager resourceDiscordMessageOutput)
         {
             this.viewDiscordChannel = viewDiscordChannel;
             this.files = filesRepository;
@@ -40,6 +45,12 @@ namespace BdoDailyCatBot.BusinessLogic.Services
             this.dataBase = dataBase;
             this.raidsService = raidsService;
             this.resourceDMC = resourceDiscordMessagesCommands;
+            this.resourcePatterns = resourcePatterns;
+            this.resourceDMO = resourceDiscordMessageOutput;
+            this.CaptainRoleName = resourceGeneralManager.GetString("CaptainRoleName");
+
+            this.AdminRolesName.Add(resourceGeneralManager.GetString("AdminRoleName1"));
+            this.AdminRolesName.Add(resourceGeneralManager.GetString("AdminRoleName2"));
 
             viewDiscordChannel.MessageSended += MessageSended;
             viewDiscordChannel.MessageReactionAdded += ReactionAdded;
@@ -59,7 +70,25 @@ namespace BdoDailyCatBot.BusinessLogic.Services
             {
                 if (mes.Content == (Prefix + resourceDMC.GetString("RegHere")))
                 {
-                    viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel) ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
+                    bool hasPermissions = false;
+
+                    var roles = viewDiscordChannel.GetUserRoles(mes.SenderID, viewDiscordChannel.GetGuildIdByChannel(mes.Channel.Id));
+
+                    foreach (var item in AdminRolesName)
+                    {
+                        if (roles.Contains(item))
+                        {
+                            hasPermissions = true;
+                            break;
+                        }
+                    }
+
+                    if (hasPermissions)
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, AddChannelToReg(mes.Channel) ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
+                        return;
+                    }
+                    viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
                 }
 
                 if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("Reg")}" + " .+"))
@@ -90,10 +119,9 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     viewDiscordChannel.AddReactionToMes(e, flag ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
-                if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid1")}" + " .+") ||
-                    Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid2")}" + " .+") ||
-                    Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("CreateRaid3")}" + " .+")
-                    )
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}({resourceDMC.GetString("CreateRaid1")}|" +
+                    $"{resourceDMC.GetString("CreateRaid3")}|" +
+                    $"{resourceDMC.GetString("CreateRaid2")})" + " .+"))
                 {
                     string Channel = "";
                     DateTime TimeStart = DateTime.Now;
@@ -107,7 +135,9 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                         TimeStartAssembly.AddDays(1);
                     }
 
-                    if (Regex.IsMatch(mes.Content, $@"^{Prefix}к (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d$"))
+                    if (Regex.IsMatch(mes.Content,
+                        $@"^{Prefix}({resourceDMC.GetString("CreateRaid1")}|{resourceDMC.GetString("CreateRaid2")}|{resourceDMC.GetString("CreateRaid3")})" +
+                        $@" {resourcePatterns.GetString("Channel-TimeStart")}$"))
                     {   // channel timeStart
                         var Args = mes.Content.Split(' ');
 
@@ -124,7 +154,9 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     }
                     else
                     {
-                        if (Regex.IsMatch(mes.Content, $@"^{Prefix}к (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d$"))
+                        if (Regex.IsMatch(mes.Content,
+                            $@"^{Prefix}({resourceDMC.GetString("CreateRaid1")}|{resourceDMC.GetString("CreateRaid2")}|{resourceDMC.GetString("CreateRaid3")})" +
+                            $@" {resourcePatterns.GetString("Channel-TimeStart-TimeStartAssembly")}$"))
                         {  // channel timeStart TimeStartAssembly
                             var Args = mes.Content.Split(' ');
 
@@ -149,7 +181,9 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                         }
                         else
                         {
-                            if (Regex.IsMatch(mes.Content, $@"^{Prefix}к (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9]))$"))
+                            if (Regex.IsMatch(mes.Content,
+                                $@"^{Prefix}({resourceDMC.GetString("CreateRaid1")}|{resourceDMC.GetString("CreateRaid2")}|{resourceDMC.GetString("CreateRaid3")})" +
+                                $@" {resourcePatterns.GetString("Channel-TimeStart-ReservedUsers")}$"))
                             {  // channel timeStart reservedUsers
                                 var Args = mes.Content.Split(' ');
 
@@ -168,7 +202,9 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                             }
                             else
                             {
-                                if (Regex.IsMatch(mes.Content, $@"^{Prefix}к (([A-Za-zА-Яа-я]-[1-4])|([A-Za-zА-Яа-я][1-4])) (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([0-1]\d)|([2][0-3])|(\d)):[0-5]\d (([1][0-9])|([1-9]))$"))
+                                if (Regex.IsMatch(mes.Content,
+                                    $@"^{Prefix}({resourceDMC.GetString("CreateRaid1")}|{resourceDMC.GetString("CreateRaid2")}|{resourceDMC.GetString("CreateRaid3")})" +
+                                    $@" {resourcePatterns.GetString("Channel-TimeStart-TimeStartAssembly-ReserverUsers")}$"))
                                 {  // channel timeStart timeStartAssembly reserverUsers
                                     var Args = mes.Content.Split(' ');
 
@@ -210,12 +246,14 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                     }
 
                     bool IsRaidAdded = raidsService.AddRaid(
-                        new Raid() { TimeStart = TimeStart, TimeStartAssembly = TimeStartAssembly, Channel = Channel, ChannelAssemblyId = mes.Channel.Id }, mes.SenderID, mes.Channel.Id); // TODO: del channel
+                        new Raid() { TimeStart = TimeStart, TimeStartAssembly = TimeStartAssembly,
+                            Channel = Channel, ChannelAssemblyId = mes.Channel.Id, ReservedUsers = ReservedUsers },
+                        mes.SenderID, mes.Channel.Id);
 
                     viewDiscordChannel.AddReactionToMes(e, IsRaidAdded ? MainBot.Models.Reactions.OK : MainBot.Models.Reactions.NO);
                 }
 
-                if (Regex.IsMatch(mes.Content, $"^{Prefix}перерег .+"))
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("Re-register")} .+"))
                 {
                     if (!Regex.IsMatch(mes.Content, $@"^{Prefix}перерег \w+$"))
                     {
@@ -246,6 +284,32 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                     user.Name = Name;
                     UpdateUser(user);
+
+                    viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.OK);
+                }
+
+                if (Regex.IsMatch(mes.Content, $"^{Prefix}{resourceDMC.GetString("DeleteRaid1")}"))
+                {
+                    var roles = viewDiscordChannel.GetUserRoles(mes.SenderID, viewDiscordChannel.GetGuildIdByChannel(mes.Channel.Id));
+                    if (!roles.Contains(CaptainRoleName))
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+
+                    var raidId = raidsService.GetRaidId(mes.Channel.Id);
+                    if (raidId == default)
+                    {
+                        viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.NO);
+                        return;
+                    }
+
+                    raidsService.DeleteRaid(raidId);
+                }
+
+                if (Regex.IsMatch(mes.Content, $"{Prefix}{resourceDMC.GetString("Help")}"))
+                {
+                    viewDiscordChannel.SendMessage(resourceDMO.GetString("Help"), mes.Channel.Id);
 
                     viewDiscordChannel.AddReactionToMes(e, MainBot.Models.Reactions.OK);
                 }

@@ -22,14 +22,14 @@ namespace BdoDailyCatBot {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GeneralResource {
+    internal class DiscordMessageOutput {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GeneralResource() {
+        internal DiscordMessageOutput() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BdoDailyCatBot {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.GeneralResource", typeof(GeneralResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BdoDailyCatBot.DiscordMessageOutput", typeof(DiscordMessageOutput).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,22 @@ namespace BdoDailyCatBot {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Доступ к ножу.
+        ///   Ищет локализованную строку, похожую на __Команды для создания рейдов:__
+        ///`!к [канал] [время старта]`
+        ///`!к [канал] [время старта] [время старта сбора]`
+        ///`!к [канал] [время старта] [забронировано мест]`
+        ///`!к [канал] [время старта] [время старта сбора] [забронировано мест ]`
+        ///**\*Вместо !к так можно использовать !кэп и !капитан**
+        ///__Команды для регистрации:__
+        ///`!рег [фамилия персонажа в игре]`
+        ///`!перерег [фамилия персонажа в игре]`
+        ///`!рег_тут `***Только для администраторов, указывает канал для регистрации**
+        ///__Для капитанов:__
+        ///`!удали_рейд` **Удаляет рейд в  [остаток строки не уместился]&quot;;.
         /// </summary>
-        internal static string AdminRoleName1 {
+        internal static string Help {
             get {
-                return ResourceManager.GetString("AdminRoleName1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Докер.
-        /// </summary>
-        internal static string AdminRoleName2 {
-            get {
-                return ResourceManager.GetString("AdminRoleName2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Капитан.
-        /// </summary>
-        internal static string CaptainRoleName {
-            get {
-                return ResourceManager.GetString("CaptainRoleName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на ([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$.
-        /// </summary>
-        internal static string NamePattern {
-            get {
-                return ResourceManager.GetString("NamePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на !.
-        /// </summary>
-        internal static string Prefix {
-            get {
-                return ResourceManager.GetString("Prefix", resourceCulture);
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
     }

@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminRoleName1" xml:space="preserve">
-    <value>Доступ к ножу</value>
+  <data name="ChannelsDirectoryPath" xml:space="preserve">
+    <value>Channels</value>
   </data>
-  <data name="AdminRoleName2" xml:space="preserve">
-    <value>Докер</value>
+  <data name="ChannelsToReg" xml:space="preserve">
+    <value>/ChannelsToReg.json</value>
   </data>
-  <data name="CaptainRoleName" xml:space="preserve">
-    <value>Капитан</value>
+  <data name="CurrentRaids" xml:space="preserve">
+    <value>/CurrentRaids.json</value>
   </data>
-  <data name="NamePattern" xml:space="preserve">
-    <value>([А-Я][А-я,0-9]{1,15}|[A-Z][A-z,0-9]{1,15})$</value>
-  </data>
-  <data name="Prefix" xml:space="preserve">
-    <value>!</value>
+  <data name="RaidsDirectoryPath" xml:space="preserve">
+    <value>Raids</value>
   </data>
 </root>

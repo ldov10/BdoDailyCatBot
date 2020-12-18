@@ -8,9 +8,9 @@ namespace BdoDailyCatBot.DataAccess.Interfaces
 {
     public interface IFilesRepository
     {
-        Task<bool> Add<T>(T item, Entities.FileTypes FileTypes) where T: ToFile;
-        Task<List<T>> GetAll<T>(Entities.FileTypes FileTypes) where T: ToFile;
-        Task<bool> Update<T>(T item, FileTypes fileTypes) where T : ToFile;
-        Task<bool> Delete<T>(T item, FileTypes fileTypes) where T : ToFile;
+        Task<bool> Add<T>(T item, Entities.FileTypes FileTypes) where T: IToFile;
+        Task<List<T>> GetAll<T>(Entities.FileTypes FileTypes) where T: IToFile;
+        Task<bool> Update<T>(T item, FileTypes fileTypes) where T : IToFile;
+        Task<bool> Delete<T>(T item, FileTypes fileTypes) where T : IToFile;
     }
 }

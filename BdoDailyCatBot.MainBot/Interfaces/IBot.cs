@@ -25,6 +25,9 @@ namespace BdoDailyCatBot.MainBot.Interfaces
         void AddReactionToMesAsync(DiscordMessage mes, Reactions reaction);
         void EditMessage(ulong messageId, ulong channelId, string mes = default, DiscordEmbed discordEmbed = default);
         Task DeleteChannel(DiscordChannel channel);
+        Task<bool> DoesMessageExist(ulong mesId, ulong channelId);
+        bool DoesChannelExist(ulong channelId);
+        DiscordGuild GetGuildByChannelId(ulong channelId);
 
         public event Action<MessageCreateEventArgs> MessageSended;
         public event Action<MessageReactionAddEventArgs> MessageReactionAdded;

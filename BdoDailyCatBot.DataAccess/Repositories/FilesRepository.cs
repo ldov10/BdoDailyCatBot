@@ -38,7 +38,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             }
         }
 
-        public async Task<bool> Delete<T>(T item, FileTypes fileTypes) where T : ToFile
+        public async Task<bool> Delete<T>(T item, FileTypes fileTypes) where T : IToFile
         {
             if (!filePath.ContainsKey(fileTypes))
             {
@@ -76,7 +76,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             }
         }
 
-        public async Task<List<T>> GetAll<T>(FileTypes FileTypes) where T: ToFile
+        public async Task<List<T>> GetAll<T>(FileTypes FileTypes) where T: IToFile
         {
             if (!filePath.ContainsKey(FileTypes))
             {
@@ -101,7 +101,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             return listItems.listItems;
         }
 
-        public async Task<bool> Update<T>(T item, FileTypes fileType) where T : ToFile
+        public async Task<bool> Update<T>(T item, FileTypes fileType) where T : IToFile
         {
             if (!filePath.ContainsKey(fileType))
             {
@@ -139,7 +139,7 @@ namespace BdoDailyCatBot.DataAccess.Repositories
         }
 
 
-        public async Task<bool> Add<T>(T item, FileTypes FileTypes) where T: ToFile
+        public async Task<bool> Add<T>(T item, FileTypes FileTypes) where T: IToFile
         {
             if (!filePath.ContainsKey(FileTypes))
             {
