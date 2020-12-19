@@ -51,7 +51,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
         private void SendMessageToChannel()
         {
-            System.Console.WriteLine(resourceCO.GetString("Select guild:"));
+            viewConsole.SendConsoleMessage(resourceCO.GetString("Select guild:"));
 
             int i = 0;
 
@@ -59,7 +59,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             foreach (var item in guilds)
             {
-                System.Console.WriteLine($"{i}. {item.Name}");
+                viewConsole.SendConsoleMessage($"{i}. {item.Name}");
                 i++;
             }
 
@@ -67,14 +67,14 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             if (Int32.TryParse(Input, out int guildInput) && (guildInput <= i && guildInput >= 0))
             {
-                System.Console.WriteLine(resourceCO.GetString("Select channle:"));
+                viewConsole.SendConsoleMessage(resourceCO.GetString("Select channle:"));
 
                 var Channels = guilds[guildInput].Channels.Values.ToList();
 
                 i = 0;
                 foreach (var item in Channels)
                 {
-                    System.Console.WriteLine($"{i}. {item.Name}");
+                    viewConsole.SendConsoleMessage($"{i}. {item.Name}");
                     i++;
                 }
 
@@ -83,27 +83,27 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
                 if (Int32.TryParse(Input, out int channleInput) && (channleInput <= i && channleInput >= 0))
                 {
-                    System.Console.WriteLine(resourceCO.GetString("Write message:"));
+                    viewConsole.SendConsoleMessage(resourceCO.GetString("Write message:"));
                     string message = System.Console.ReadLine();
 
                     viewDiscordChannel.SendMessage(message, Channels[channleInput].Id);
                 }
                 else
                 {
-                    System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
+                    viewConsole.SendConsoleMessage(resourceCO.GetString("Wrong choise"));
                     return;
                 }
             }
             else
             {
-                System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
+                viewConsole.SendConsoleMessage(resourceCO.GetString("Wrong choise"));
                 return;
             }
         }
 
         private void AddChannelToReg()
         {
-            System.Console.WriteLine(resourceCO.GetString("Select guild:"));
+            viewConsole.SendConsoleMessage(resourceCO.GetString("Select guild:"));
 
             int i = 0;
 
@@ -111,7 +111,7 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             foreach (var item in guilds)
             {
-                System.Console.WriteLine($"{i}. {item.Name}");
+                viewConsole.SendConsoleMessage($"{i}. {item.Name}");
                 i++;
             }
 
@@ -119,14 +119,14 @@ namespace BdoDailyCatBot.BusinessLogic.Services
 
             if (Int32.TryParse(Input, out int guildInput) && (guildInput <= i && guildInput >= 0))
             {
-                System.Console.WriteLine(resourceCO.GetString("Select channle:"));
+                viewConsole.SendConsoleMessage(resourceCO.GetString("Select channle:"));
 
                 var Channels = guilds[guildInput].Channels.Values.ToList();
 
                 i = 0;
                 foreach (var item in Channels)
                 {
-                    System.Console.WriteLine($"{i}. {item.Name}");
+                    viewConsole.SendConsoleMessage($"{i}. {item.Name}");
                     i++;
                 }
 
@@ -140,13 +140,13 @@ namespace BdoDailyCatBot.BusinessLogic.Services
                 }
                 else
                 {
-                    System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
+                    viewConsole.SendConsoleMessage(resourceCO.GetString("Wrong choise"));
                     return;
                 }
             }
             else
             {
-                System.Console.WriteLine(resourceCO.GetString("Wrong choise"));
+                viewConsole.SendConsoleMessage(resourceCO.GetString("Wrong choise"));
                 return;
             }
         }

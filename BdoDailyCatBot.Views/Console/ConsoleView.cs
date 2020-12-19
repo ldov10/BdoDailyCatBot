@@ -19,6 +19,11 @@ namespace BdoDailyCatBot.Views.Console
             ConsoleListner();
         }
 
+        public void SendConsoleMessage(string mes)
+        {
+            System.Console.WriteLine(mes);
+        }
+
         private void ConsoleListner()
         {
             while (true)

@@ -8,6 +8,8 @@ namespace BdoDailyCatBot.Views.Interfaces
     {
         public string Message { get; }
 
+        void SendConsoleMessage(string mes);
+
         event Action SendMessage;
     }
 }
