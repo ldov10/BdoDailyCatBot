@@ -24,28 +24,12 @@ namespace BdoDailyCatBot
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(Secrets.dbToken);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Captains>(entity =>
-            //{
-            //    entity.HasIndex(e => e.UserId)
-            //        .HasName("IX_Captains")
-            //        .IsUnique();
-
-            //    entity.Property(e => e.LastDrivenRaid).HasColumnType("datetime");
-
-            //    entity.HasOne(d => d.User)
-            //        .WithOne(p => p.Captains)
-            //        .HasForeignKey<Captains>(d => d.UserId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Captains_Users");
-            //});
-
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.IdDiscord).HasColumnType("numeric(20, 0)");
