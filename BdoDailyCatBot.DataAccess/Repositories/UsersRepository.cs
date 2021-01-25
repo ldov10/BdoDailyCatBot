@@ -18,6 +18,11 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
+        public void SetContext(DbContext context)
+        {
+            this.db = context;
+        }
+
         public IEnumerable<Users> GetAll()
         {
             return db.Users;

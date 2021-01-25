@@ -48,8 +48,8 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             db.SaveChanges();
             db.Dispose();
             db = new DbContext();
-            usersRepository = new UsersRepository(db);
-            captainsRepository = new CaptainsRepository(db);
+            usersRepository.SetContext(db);
+            captainsRepository.SetContext(db);
         }
 
         private bool disposed = false;

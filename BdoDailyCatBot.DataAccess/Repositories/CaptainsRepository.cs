@@ -19,6 +19,11 @@ namespace BdoDailyCatBot.DataAccess.Repositories
             this.db = context;
         }
 
+        public void SetContext(DbContext context)
+        {
+            this.db = context;
+        }
+
         public void Update(Captains captain)
         {
             var state = db.Entry(captain).State = EntityState.Modified;

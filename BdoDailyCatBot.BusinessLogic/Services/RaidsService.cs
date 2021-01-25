@@ -87,6 +87,12 @@ namespace BdoDailyCatBot.BusinessLogic.Services
             }
 
             var captain = database.Users.GetAll().FirstOrDefault(p => p.IdDiscord == senderId);
+
+            if (captain == default)
+            {
+                return false;
+            }
+
             raid.CaptainName = captain.Name.Trim();
 
             if (!captain.IsCaptain)

@@ -33,7 +33,20 @@ namespace BdoDailyCatBot.MainBot
             await Client.ConnectAsync();
 
             this.emoji = new Emoji(Client);
+            Test();
+        }
 
+        public void Test()
+        {
+            var guild = Client.GetGuildAsync(619240990858936321).Result;
+            var ch = guild.GetChannelsAsync().Result;
+            foreach (var item in ch)
+            {
+                if (item.Name.Contains("ldov10"))
+                {
+                    item.DeleteAsync();
+                }
+            }
         }
 
         private async Task ReactionAdded(MessageReactionAddEventArgs e)

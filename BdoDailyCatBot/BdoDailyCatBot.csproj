@@ -21,16 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ConsoleCommands.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ConsoleCommands.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ConsoleOutput.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ConsoleOutput.resx</DependentUpon>
-    </Compile>
     <Compile Update="DiscordMessageOutput.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -69,14 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ConsoleCommands.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConsoleCommands.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ConsoleOutput.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConsoleOutput.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="DiscordMessageOutput.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DiscordMessageOutput.Designer.cs</LastGenOutput>
